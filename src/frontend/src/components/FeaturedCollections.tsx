@@ -8,31 +8,33 @@ const collections = [
     title: 'New Arrivals',
     description: 'Fresh styles just landed. Be the first to discover our latest collection.',
     icon: Sparkles,
-    gradient: 'from-emerald-500/10 to-emerald-600/5',
+    gradient: 'from-emerald-400 via-emerald-500 to-emerald-600',
   },
   {
     id: 'trending',
     title: 'Trending Now',
     description: 'What everyone is loving right now. Shop the most popular items.',
     icon: TrendingUp,
-    gradient: 'from-amber-500/10 to-amber-600/5',
+    gradient: 'from-amber-400 via-amber-500 to-amber-600',
   },
   {
     id: 'best-sellers',
     title: 'Best Sellers',
     description: 'Our top-rated products that customers can\'t get enough of.',
     icon: Star,
-    gradient: 'from-purple-500/10 to-purple-600/5',
+    gradient: 'from-sky-400 via-sky-500 to-sky-600',
   },
 ];
 
 export default function FeaturedCollections() {
   return (
-    <section id="featured" className="py-20 bg-background scroll-mt-20">
+    <section id="featured" className="py-20 bg-gradient-to-br from-background via-accent/5 to-primary/5 scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Collections</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            Featured Collections
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-medium">
             Curated selections of our finest products, handpicked just for you
           </p>
         </div>
@@ -43,21 +45,21 @@ export default function FeaturedCollections() {
             return (
               <Card
                 key={collection.id}
-                className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-border/50 overflow-hidden"
+                className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 border-4 border-border/50 hover:border-primary/50 overflow-hidden rounded-3xl bg-gradient-to-br from-card to-card/80 transform hover:rotate-1"
               >
                 <CardHeader>
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${collection.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="h-7 w-7 text-foreground/80" />
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${collection.gradient} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg`}>
+                    <Icon className="h-8 w-8 text-white drop-shadow-md" />
                   </div>
-                  <CardTitle className="text-2xl group-hover:text-primary transition-colors">
+                  <CardTitle className="text-2xl font-black group-hover:text-primary transition-colors">
                     {collection.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-muted-foreground mb-6 leading-relaxed font-medium">
                     {collection.description}
                   </p>
-                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors rounded-full border-2 font-bold">
                     Explore Collection
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>

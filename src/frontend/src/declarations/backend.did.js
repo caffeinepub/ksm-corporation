@@ -8,6 +8,31 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
+export const RegionStyle = IDL.Variant({
+  'southAmerican' : IDL.Null,
+  'european' : IDL.Null,
+  'australian' : IDL.Null,
+  'italian' : IDL.Null,
+  'american' : IDL.Null,
+  'canadian' : IDL.Null,
+});
+export const OrderLineItem = IDL.Record({
+  'color' : IDL.Opt(IDL.Text),
+  'size' : IDL.Opt(IDL.Text),
+  'productId' : IDL.Text,
+  'quantity' : IDL.Nat,
+});
+export const Time = IDL.Int;
+export const Order = IDL.Record({
+  'id' : IDL.Text,
+  'lineItems' : IDL.Vec(OrderLineItem),
+  'buyerEmail' : IDL.Text,
+  'totalAmount' : IDL.Nat,
+  'currency' : IDL.Text,
+  'timestamp' : Time,
+  'shippingAddress' : IDL.Text,
+  'buyerName' : IDL.Text,
+});
 export const Category = IDL.Record({
   'id' : IDL.Text,
   'title' : IDL.Text,
@@ -20,14 +45,83 @@ export const Config = IDL.Record({
   'brandName' : IDL.Text,
   'heroHeadline' : IDL.Text,
 });
+export const Product = IDL.Record({
+  'id' : IDL.Text,
+  'categoryId' : IDL.Text,
+  'inStock' : IDL.Bool,
+  'name' : IDL.Text,
+  'description' : IDL.Text,
+  'sizes' : IDL.Vec(IDL.Text),
+  'stockCount' : IDL.Nat,
+  'imageUrl' : IDL.Text,
+  'currency' : IDL.Text,
+  'colors' : IDL.Vec(IDL.Text),
+  'price' : IDL.Nat,
+  'styleTags' : IDL.Vec(RegionStyle),
+});
 
 export const idlService = IDL.Service({
+  'addProduct' : IDL.Func(
+      [
+        IDL.Text,
+        IDL.Text,
+        IDL.Nat,
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Vec(IDL.Text),
+        IDL.Vec(IDL.Text),
+        IDL.Nat,
+        IDL.Vec(RegionStyle),
+      ],
+      [IDL.Text],
+      [],
+    ),
+  'getAllOrders' : IDL.Func(
+      [],
+      [IDL.Vec(IDL.Tuple(IDL.Text, Order))],
+      ['query'],
+    ),
   'getConfig' : IDL.Func([], [Config], []),
+  'getOrder' : IDL.Func([IDL.Text], [IDL.Opt(Order)], ['query']),
+  'getProduct' : IDL.Func([IDL.Text], [IDL.Opt(Product)], ['query']),
+  'getProductsByCategory' : IDL.Func([IDL.Text], [IDL.Vec(Product)], ['query']),
+  'getProductsByStyle' : IDL.Func([RegionStyle], [IDL.Vec(Product)], ['query']),
+  'placeOrder' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Vec(OrderLineItem), IDL.Text],
+      [IDL.Text],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
+  const RegionStyle = IDL.Variant({
+    'southAmerican' : IDL.Null,
+    'european' : IDL.Null,
+    'australian' : IDL.Null,
+    'italian' : IDL.Null,
+    'american' : IDL.Null,
+    'canadian' : IDL.Null,
+  });
+  const OrderLineItem = IDL.Record({
+    'color' : IDL.Opt(IDL.Text),
+    'size' : IDL.Opt(IDL.Text),
+    'productId' : IDL.Text,
+    'quantity' : IDL.Nat,
+  });
+  const Time = IDL.Int;
+  const Order = IDL.Record({
+    'id' : IDL.Text,
+    'lineItems' : IDL.Vec(OrderLineItem),
+    'buyerEmail' : IDL.Text,
+    'totalAmount' : IDL.Nat,
+    'currency' : IDL.Text,
+    'timestamp' : Time,
+    'shippingAddress' : IDL.Text,
+    'buyerName' : IDL.Text,
+  });
   const Category = IDL.Record({
     'id' : IDL.Text,
     'title' : IDL.Text,
@@ -40,8 +134,62 @@ export const idlFactory = ({ IDL }) => {
     'brandName' : IDL.Text,
     'heroHeadline' : IDL.Text,
   });
+  const Product = IDL.Record({
+    'id' : IDL.Text,
+    'categoryId' : IDL.Text,
+    'inStock' : IDL.Bool,
+    'name' : IDL.Text,
+    'description' : IDL.Text,
+    'sizes' : IDL.Vec(IDL.Text),
+    'stockCount' : IDL.Nat,
+    'imageUrl' : IDL.Text,
+    'currency' : IDL.Text,
+    'colors' : IDL.Vec(IDL.Text),
+    'price' : IDL.Nat,
+    'styleTags' : IDL.Vec(RegionStyle),
+  });
   
-  return IDL.Service({ 'getConfig' : IDL.Func([], [Config], []) });
+  return IDL.Service({
+    'addProduct' : IDL.Func(
+        [
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Vec(IDL.Text),
+          IDL.Vec(IDL.Text),
+          IDL.Nat,
+          IDL.Vec(RegionStyle),
+        ],
+        [IDL.Text],
+        [],
+      ),
+    'getAllOrders' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Tuple(IDL.Text, Order))],
+        ['query'],
+      ),
+    'getConfig' : IDL.Func([], [Config], []),
+    'getOrder' : IDL.Func([IDL.Text], [IDL.Opt(Order)], ['query']),
+    'getProduct' : IDL.Func([IDL.Text], [IDL.Opt(Product)], ['query']),
+    'getProductsByCategory' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Product)],
+        ['query'],
+      ),
+    'getProductsByStyle' : IDL.Func(
+        [RegionStyle],
+        [IDL.Vec(Product)],
+        ['query'],
+      ),
+    'placeOrder' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Vec(OrderLineItem), IDL.Text],
+        [IDL.Text],
+        [],
+      ),
+  });
 };
 
 export const init = ({ IDL }) => { return []; };

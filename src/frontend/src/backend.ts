@@ -89,11 +89,28 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface OrderLineItem {
+    color?: string;
+    size?: string;
+    productId: string;
+    quantity: bigint;
+}
+export type Time = bigint;
 export interface Config {
     categories: Array<Category>;
     heroDescription: string;
     brandName: string;
     heroHeadline: string;
+}
+export interface Order {
+    id: string;
+    lineItems: Array<OrderLineItem>;
+    buyerEmail: string;
+    totalAmount: bigint;
+    currency: string;
+    timestamp: Time;
+    shippingAddress: string;
+    buyerName: string;
 }
 export interface Category {
     id: string;
@@ -101,11 +118,69 @@ export interface Category {
     description: string;
     imageUrl: string;
 }
-export interface backendInterface {
-    getConfig(): Promise<Config>;
+export interface Product {
+    id: string;
+    categoryId: string;
+    inStock: boolean;
+    name: string;
+    description: string;
+    sizes: Array<string>;
+    stockCount: bigint;
+    imageUrl: string;
+    currency: string;
+    colors: Array<string>;
+    price: bigint;
+    styleTags: Array<RegionStyle>;
 }
+export enum RegionStyle {
+    southAmerican = "southAmerican",
+    european = "european",
+    australian = "australian",
+    italian = "italian",
+    american = "american",
+    canadian = "canadian"
+}
+export interface backendInterface {
+    addProduct(name: string, description: string, price: bigint, currency: string, categoryId: string, imageUrl: string, sizes: Array<string>, colors: Array<string>, stockCount: bigint, styleTags: Array<RegionStyle>): Promise<string>;
+    getAllOrders(): Promise<Array<[string, Order]>>;
+    getConfig(): Promise<Config>;
+    getOrder(orderId: string): Promise<Order | null>;
+    getProduct(productId: string): Promise<Product | null>;
+    getProductsByCategory(categoryId: string): Promise<Array<Product>>;
+    getProductsByStyle(styleFilter: RegionStyle): Promise<Array<Product>>;
+    placeOrder(buyerName: string, buyerEmail: string, shippingAddress: string, lineItems: Array<OrderLineItem>, currency: string): Promise<string>;
+}
+import type { Order as _Order, OrderLineItem as _OrderLineItem, Product as _Product, RegionStyle as _RegionStyle, Time as _Time } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
+    async addProduct(arg0: string, arg1: string, arg2: bigint, arg3: string, arg4: string, arg5: string, arg6: Array<string>, arg7: Array<string>, arg8: bigint, arg9: Array<RegionStyle>): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addProduct(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, to_candid_vec_n1(this._uploadFile, this._downloadFile, arg9));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addProduct(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, to_candid_vec_n1(this._uploadFile, this._downloadFile, arg9));
+            return result;
+        }
+    }
+    async getAllOrders(): Promise<Array<[string, Order]>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAllOrders();
+                return from_candid_vec_n4(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAllOrders();
+            return from_candid_vec_n4(this._uploadFile, this._downloadFile, result);
+        }
+    }
     async getConfig(): Promise<Config> {
         if (this.processError) {
             try {
@@ -120,6 +195,277 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async getOrder(arg0: string): Promise<Order | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getOrder(arg0);
+                return from_candid_opt_n12(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getOrder(arg0);
+            return from_candid_opt_n12(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getProduct(arg0: string): Promise<Product | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getProduct(arg0);
+                return from_candid_opt_n13(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getProduct(arg0);
+            return from_candid_opt_n13(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getProductsByCategory(arg0: string): Promise<Array<Product>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getProductsByCategory(arg0);
+                return from_candid_vec_n19(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getProductsByCategory(arg0);
+            return from_candid_vec_n19(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getProductsByStyle(arg0: RegionStyle): Promise<Array<Product>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getProductsByStyle(to_candid_RegionStyle_n2(this._uploadFile, this._downloadFile, arg0));
+                return from_candid_vec_n19(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getProductsByStyle(to_candid_RegionStyle_n2(this._uploadFile, this._downloadFile, arg0));
+            return from_candid_vec_n19(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async placeOrder(arg0: string, arg1: string, arg2: string, arg3: Array<OrderLineItem>, arg4: string): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.placeOrder(arg0, arg1, arg2, to_candid_vec_n20(this._uploadFile, this._downloadFile, arg3), arg4);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.placeOrder(arg0, arg1, arg2, to_candid_vec_n20(this._uploadFile, this._downloadFile, arg3), arg4);
+            return result;
+        }
+    }
+}
+function from_candid_OrderLineItem_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _OrderLineItem): OrderLineItem {
+    return from_candid_record_n10(_uploadFile, _downloadFile, value);
+}
+function from_candid_Order_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Order): Order {
+    return from_candid_record_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_Product_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Product): Product {
+    return from_candid_record_n15(_uploadFile, _downloadFile, value);
+}
+function from_candid_RegionStyle_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _RegionStyle): RegionStyle {
+    return from_candid_variant_n18(_uploadFile, _downloadFile, value);
+}
+function from_candid_opt_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Order]): Order | null {
+    return value.length === 0 ? null : from_candid_Order_n6(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_opt_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Product]): Product | null {
+    return value.length === 0 ? null : from_candid_Product_n14(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_record_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    color: [] | [string];
+    size: [] | [string];
+    productId: string;
+    quantity: bigint;
+}): {
+    color?: string;
+    size?: string;
+    productId: string;
+    quantity: bigint;
+} {
+    return {
+        color: record_opt_to_undefined(from_candid_opt_n11(_uploadFile, _downloadFile, value.color)),
+        size: record_opt_to_undefined(from_candid_opt_n11(_uploadFile, _downloadFile, value.size)),
+        productId: value.productId,
+        quantity: value.quantity
+    };
+}
+function from_candid_record_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: string;
+    categoryId: string;
+    inStock: boolean;
+    name: string;
+    description: string;
+    sizes: Array<string>;
+    stockCount: bigint;
+    imageUrl: string;
+    currency: string;
+    colors: Array<string>;
+    price: bigint;
+    styleTags: Array<_RegionStyle>;
+}): {
+    id: string;
+    categoryId: string;
+    inStock: boolean;
+    name: string;
+    description: string;
+    sizes: Array<string>;
+    stockCount: bigint;
+    imageUrl: string;
+    currency: string;
+    colors: Array<string>;
+    price: bigint;
+    styleTags: Array<RegionStyle>;
+} {
+    return {
+        id: value.id,
+        categoryId: value.categoryId,
+        inStock: value.inStock,
+        name: value.name,
+        description: value.description,
+        sizes: value.sizes,
+        stockCount: value.stockCount,
+        imageUrl: value.imageUrl,
+        currency: value.currency,
+        colors: value.colors,
+        price: value.price,
+        styleTags: from_candid_vec_n16(_uploadFile, _downloadFile, value.styleTags)
+    };
+}
+function from_candid_record_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: string;
+    lineItems: Array<_OrderLineItem>;
+    buyerEmail: string;
+    totalAmount: bigint;
+    currency: string;
+    timestamp: _Time;
+    shippingAddress: string;
+    buyerName: string;
+}): {
+    id: string;
+    lineItems: Array<OrderLineItem>;
+    buyerEmail: string;
+    totalAmount: bigint;
+    currency: string;
+    timestamp: Time;
+    shippingAddress: string;
+    buyerName: string;
+} {
+    return {
+        id: value.id,
+        lineItems: from_candid_vec_n8(_uploadFile, _downloadFile, value.lineItems),
+        buyerEmail: value.buyerEmail,
+        totalAmount: value.totalAmount,
+        currency: value.currency,
+        timestamp: value.timestamp,
+        shippingAddress: value.shippingAddress,
+        buyerName: value.buyerName
+    };
+}
+function from_candid_tuple_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [string, _Order]): [string, Order] {
+    return [
+        value[0],
+        from_candid_Order_n6(_uploadFile, _downloadFile, value[1])
+    ];
+}
+function from_candid_variant_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    southAmerican: null;
+} | {
+    european: null;
+} | {
+    australian: null;
+} | {
+    italian: null;
+} | {
+    american: null;
+} | {
+    canadian: null;
+}): RegionStyle {
+    return "southAmerican" in value ? RegionStyle.southAmerican : "european" in value ? RegionStyle.european : "australian" in value ? RegionStyle.australian : "italian" in value ? RegionStyle.italian : "american" in value ? RegionStyle.american : "canadian" in value ? RegionStyle.canadian : value;
+}
+function from_candid_vec_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_RegionStyle>): Array<RegionStyle> {
+    return value.map((x)=>from_candid_RegionStyle_n17(_uploadFile, _downloadFile, x));
+}
+function from_candid_vec_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Product>): Array<Product> {
+    return value.map((x)=>from_candid_Product_n14(_uploadFile, _downloadFile, x));
+}
+function from_candid_vec_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<[string, _Order]>): Array<[string, Order]> {
+    return value.map((x)=>from_candid_tuple_n5(_uploadFile, _downloadFile, x));
+}
+function from_candid_vec_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_OrderLineItem>): Array<OrderLineItem> {
+    return value.map((x)=>from_candid_OrderLineItem_n9(_uploadFile, _downloadFile, x));
+}
+function to_candid_OrderLineItem_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: OrderLineItem): _OrderLineItem {
+    return to_candid_record_n22(_uploadFile, _downloadFile, value);
+}
+function to_candid_RegionStyle_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: RegionStyle): _RegionStyle {
+    return to_candid_variant_n3(_uploadFile, _downloadFile, value);
+}
+function to_candid_record_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    color?: string;
+    size?: string;
+    productId: string;
+    quantity: bigint;
+}): {
+    color: [] | [string];
+    size: [] | [string];
+    productId: string;
+    quantity: bigint;
+} {
+    return {
+        color: value.color ? candid_some(value.color) : candid_none(),
+        size: value.size ? candid_some(value.size) : candid_none(),
+        productId: value.productId,
+        quantity: value.quantity
+    };
+}
+function to_candid_variant_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: RegionStyle): {
+    southAmerican: null;
+} | {
+    european: null;
+} | {
+    australian: null;
+} | {
+    italian: null;
+} | {
+    american: null;
+} | {
+    canadian: null;
+} {
+    return value == RegionStyle.southAmerican ? {
+        southAmerican: null
+    } : value == RegionStyle.european ? {
+        european: null
+    } : value == RegionStyle.australian ? {
+        australian: null
+    } : value == RegionStyle.italian ? {
+        italian: null
+    } : value == RegionStyle.american ? {
+        american: null
+    } : value == RegionStyle.canadian ? {
+        canadian: null
+    } : value;
+}
+function to_candid_vec_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<RegionStyle>): Array<_RegionStyle> {
+    return value.map((x)=>to_candid_RegionStyle_n2(_uploadFile, _downloadFile, x));
+}
+function to_candid_vec_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<OrderLineItem>): Array<_OrderLineItem> {
+    return value.map((x)=>to_candid_OrderLineItem_n21(_uploadFile, _downloadFile, x));
 }
 export interface CreateActorOptions {
     agent?: Agent;

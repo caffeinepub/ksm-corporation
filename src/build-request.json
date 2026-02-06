@@ -1,90 +1,51 @@
 {
   "kind": "build_request",
-  "title": "Enhance homepage layout and add backend-powered storefront configuration (including brand name option)",
+  "title": "Shift storefront theme toward a more blue, less pink/purple palette",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-4",
-      "text": "Update the homepage layout to be a more complete, scrollable landing page by adding at least these sections below the existing hero: (1) a \"Featured Collections\" section, (2) a \"Why shop with us\"/trust highlights section, and (3) a simple newsletter/signup call-to-action section. Ensure all sections are responsive and match the existing visual theme.",
+      "id": "REQ-22",
+      "text": "Update the storefront visual theme to use more blue tones and reduce/remove pink/purple hues across the UI while keeping the existing playful/cartoonish aesthetic and ensuring good text contrast and readability.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "msg-5"
         ],
         "quotes": [
-          "Okay, how will you do the homepage layout?"
+          "Can you put a little more blue color, not pinkish? ... I wanted more manly color."
         ]
       },
       "acceptanceCriteria": [
-        "The homepage renders the existing header + hero + category showcase + footer, plus the three additional sections listed in this requirement, in a single scrollable page.",
-        "All new sections are responsive (mobile, tablet, desktop) and use the existing Tailwind/shadcn styling approach.",
-        "All user-facing text in the added sections is in English."
+        "Global theme tokens are adjusted to emphasize blue as the primary and reduce/remove any pink/purple-leaning tones (including in light and dark mode variables).",
+        "No prominent UI elements (section gradients, buttons, cards, badges, dividers) render with clearly pink/purple styling unless it is a very subtle, non-dominant accent.",
+        "Text and interactive components maintain accessible contrast (no low-contrast text on gradients/backgrounds introduced by the palette change)."
       ]
     },
     {
-      "id": "REQ-5",
-      "text": "Make the header navigation links reliably navigate to the corresponding homepage sections by ensuring each target section has a stable anchor id and that clicking a nav item scrolls to that section (including for the categories already shown). Add a working mobile navigation experience (e.g., an expandable menu) so the same links are accessible on small screens.",
+      "id": "REQ-23",
+      "text": "Replace any explicit Tailwind purple/pink gradient usages in storefront sections (e.g., featured collection cards) with blue-forward gradients that match the updated theme.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "msg-5"
         ],
         "quotes": [
-          "Okay, how will you do the homepage layout?"
+          "put a little more blue color, not pinkish"
         ]
       },
       "acceptanceCriteria": [
-        "Each top navigation item scrolls to a matching section with the same anchor id (e.g., men, women, children, infants, jewelry, shoes, pets).",
-        "On mobile viewports, users can open a menu and access the same navigation links.",
-        "No broken links: clicking any nav item moves the viewport to a visible section on the page."
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Add backend \"coding\" by implementing a minimal Motoko API that provides storefront configuration data (brand/store name, hero headline/description, and the category list used on the homepage). Update the frontend to fetch this configuration with React Query and render the homepage content from the fetched data (falling back to current hardcoded defaults if the backend call fails).",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-8"
-        ],
-        "quotes": [
-          "And how will you add coding to the Coding Company Corporation?"
-        ]
-      },
-      "acceptanceCriteria": [
-        "The backend canister exposes at least one query method that returns a single configuration object containing: store name, hero headline/description, and category definitions (id/title/description).",
-        "The frontend uses React Query to fetch this configuration and uses it to populate the homepage hero and category grid content.",
-        "If the backend is unavailable or the call fails, the UI still renders using existing default content without crashing."
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Support the brand name \"Coding Company Corporation\" by making the displayed brand/store name come from the backend configuration (REQ-6) and ensuring it is used consistently for accessible text (e.g., image alt text, sr-only labels, and any visible store name text). Do not remove existing KSM logo assets; only update text/labels to be data-driven.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-8"
-        ],
-        "quotes": [
-          "And how will you add coding to the Coding Company Corporation?"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Store/brand name displayed in the UI is sourced from backend configuration (with a sensible default such as the current \"KSM Corporation\").",
-        "Accessible text that references the store name (e.g., logo alt text) uses the configured store/brand name.",
-        "Existing logo image files remain unchanged and still load from /assets/generated/."
+        "Featured collection cards and other gradient-based UI elements no longer use purple/pink Tailwind classes (e.g., purple-*, fuchsia-*, pink-*), and are updated to blue-forward equivalents.",
+        "The updated gradients look consistent with the rest of the site theme (header/hero/products sections) and do not introduce new clashing colors."
       ]
     }
   ],
   "constraints": [
-    "Do not edit any files under frontend/src/components/ui (compose existing shadcn components instead).",
-    "Do not modify files in frontend immutablePaths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
-    "Backend must remain a single Motoko actor in backend/main.mo; only add backend/migration.mo if an upgrade requires state migration."
+    "Do not edit any files under frontend/src/components/ui (shadcn components); only compose/override via theme tokens and app components.",
+    "Keep all user-facing text in English and do not add any derogatory or inflammatory language to the UI."
   ],
   "nonGoals": [
-    "Implementing a full product catalog, cart, checkout, payments, or order management.",
-    "Adding third-party authentication providers beyond Internet Identity.",
-    "Generating a new logo for \"Coding Company Corporation\" (text will be made configurable, but image/logo changes are out of scope unless explicitly requested)."
+    "No new product features, filters, checkout changes, or backend changes.",
+    "No logo/image regeneration unless required by the palette change (not requested)."
   ],
   "imageRequirements": {
     "required": [],
@@ -93,7 +54,9 @@
   "userProfileUpdate": {
     "goalsToAdd": [],
     "goalsToRemove": [],
-    "preferencesToAdd": [],
+    "preferencesToAdd": [
+      "Prefer a blue-forward color palette; reduce/remove pink/purple tones."
+    ],
     "preferencesToRemove": [],
     "miscToAdd": [],
     "miscToRemove": [],
