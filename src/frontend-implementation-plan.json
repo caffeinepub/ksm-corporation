@@ -1,56 +1,67 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Shift storefront theme to a blue-forward palette (reduce/remove pink/purple)",
+  "title": "Company storefront category cleanup and publish-ready frontend wiring",
   "requirements": [
     {
-      "id": "REQ-22",
-      "summary": "Update global storefront theme tokens to emphasize blue tones, reduce/remove pink/purple hues, and maintain readable/accessible contrast in light and dark modes.",
+      "id": "REQ-2",
+      "summary": "Remove NFT/crypto-related fallback UI data and align the frontend fallback storefront categories (ids/titles/descriptions) to the physical-goods category set in English.",
       "acceptanceCriteria": [
-        "Global theme tokens are adjusted to emphasize blue as the primary and reduce/remove any pink/purple-leaning tones (including in light and dark mode variables).",
-        "No prominent UI elements (section gradients, buttons, cards, badges, dividers) render with clearly pink/purple styling unless it is a very subtle, non-dominant accent.",
-        "Text and interactive components maintain accessible contrast (no low-contrast text on gradients/backgrounds introduced by the palette change)."
+        "The homepage does not show an “NFTs” category in fallback mode",
+        "Fallback categories match the backend category set and ids used by the product listing/category filtering UI",
+        "All visible labels/descriptions remain English"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/index.css",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Adjust the OKLCH CSS variables (light and .dark) to shift neutrals away from purple hues (e.g., foreground/border/muted-foreground) and keep primary blue-forward; update any purple-leaning chart tokens to non-purple alternatives while preserving the playful/cartoonish feel and ensuring good contrast."
-        },
-        {
-          "path": "frontend/index.css",
-          "operation": "modify",
-          "description": "Align any global theme CSS variables (light and .dark) with the updated blue-forward palette so theming remains consistent if this file is used by the build; keep contrast and readability."
-        },
-        {
-          "path": "frontend/tailwind.config.js",
-          "operation": "modify",
-          "description": "Review theme color token bindings to ensure the updated CSS variables map cleanly (no purple/pink hardcoding) and that alpha-enabled tokens (e.g., ring/primary/muted) still produce accessible contrast across common UI states."
-        }
-      ]
-    },
-    {
-      "id": "REQ-23",
-      "summary": "Replace explicit Tailwind purple/pink gradient usages in storefront sections with blue-forward gradients consistent with the updated theme.",
-      "acceptanceCriteria": [
-        "Featured collection cards and other gradient-based UI elements no longer use purple/pink Tailwind classes (e.g., purple-*, fuchsia-*, pink-*), and are updated to blue-forward equivalents.",
-        "The updated gradients look consistent with the rest of the site theme (header/hero/products sections) and do not introduce new clashing colors."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/FeaturedCollections.tsx",
-          "operation": "modify",
-          "description": "Replace the collection card gradient that currently uses purple Tailwind classes with a blue-forward gradient (e.g., blue/sky/cyan family) and ensure the section’s gradients remain consistent with the global theme."
+          "description": "Update `defaultConfig` to include exactly 8 physical store categories (Women’s Clothing, Men’s Clothing, Children’s Clothing, Infant Clothing, Shoes, Jewelry, Accessories, Bags) with stable kebab-case ids matching the backend (e.g., `womens-clothing`, `mens-clothing`, `childrens-clothing`, `infant-clothing`, `shoes`, `jewelry`, `accessories`, `bags`), and remove any NFT/crypto (and other unsupported) fallback categories. Ensure all fallback titles/descriptions remain English. Verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/components/CategoryShowcase.tsx",
           "operation": "modify",
-          "description": "Update gradientMap entries that use pink/purple Tailwind classes (e.g., women/infants) to blue-forward gradients; verify category cards still feel playful and icons remain readable on the new gradients."
+          "description": "Remove NFT/crypto-related icon/gradient mappings and add mappings for the updated category ids (including Accessories and Bags) so fallback mode and backend-driven mode render consistent category cards without “NFTs”. Verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/TrustHighlights.tsx",
+          "path": "frontend/src/components/ProductsSection.tsx",
           "operation": "modify",
-          "description": "Update the highlight gradient that currently uses purple Tailwind classes to a blue-forward gradient, keeping consistent styling with other highlight cards and maintaining icon/text contrast."
+          "description": "Adjust the ProductsSection initial selected category fallback (currently hardcoded to `men`) to use the updated category ids (prefer first category from props, otherwise default to `womens-clothing`) so category filtering works when backend config is unavailable. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Ensure the frontend is publish-ready and supports end-to-end browsing, cart, and checkout with the updated category ids and navigation wiring.",
+      "acceptanceCriteria": [
+        "A clean build succeeds for both frontend and backend",
+        "The published deployment loads without runtime errors",
+        "A user can: open the storefront, browse categories, add an in-stock product to cart, submit checkout, and receive an order confirmation with an order id"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProductsSection.tsx",
+          "operation": "modify",
+          "description": "Add robust navigation wiring so clicking a category (from header/footer/showcase) reliably scrolls to the products area and selects the corresponding category tab. Implement a lightweight hash-based or shared-state mechanism that maps category ids to `selectedCategory` and keeps the UI in sync (including on initial load when a hash is present). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/CategoryShowcase.tsx",
+          "operation": "modify",
+          "description": "Update category click behavior to navigate users to the products browsing experience (rather than scrolling to the category card itself). Integrate with the ProductsSection category-selection mechanism (e.g., set location hash and scroll to `products`). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/StorefrontHeader.tsx",
+          "operation": "modify",
+          "description": "Ensure header category navigation items work with the updated category ids and trigger the same products-section selection behavior used elsewhere (including on mobile menu). Keep user-facing labels in English. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Ensure footer category shortcuts use the updated category ids and trigger the shared products-section navigation/selection behavior so category browsing works consistently across the app. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/CheckoutPanel.tsx",
+          "operation": "modify",
+          "description": "Harden checkout UX for publish readiness: preserve and display the returned order id on success (current behavior) and ensure failures are handled without runtime errors (e.g., show an English error toast/message and keep cart items intact when an order fails). Verify the component's usage instructions before implementing."
         }
       ]
     }

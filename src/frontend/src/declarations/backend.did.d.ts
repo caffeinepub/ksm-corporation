@@ -22,16 +22,6 @@ export interface Config {
   'brandName' : string,
   'heroHeadline' : string,
 }
-export interface Order {
-  'id' : string,
-  'lineItems' : Array<OrderLineItem>,
-  'buyerEmail' : string,
-  'totalAmount' : bigint,
-  'currency' : string,
-  'timestamp' : Time,
-  'shippingAddress' : string,
-  'buyerName' : string,
-}
 export interface OrderLineItem {
   'color' : [] | [string],
   'size' : [] | [string],
@@ -58,7 +48,6 @@ export type RegionStyle = { 'southAmerican' : null } |
   { 'italian' : null } |
   { 'american' : null } |
   { 'canadian' : null };
-export type Time = bigint;
 export interface _SERVICE {
   'addProduct' : ActorMethod<
     [
@@ -75,9 +64,8 @@ export interface _SERVICE {
     ],
     string
   >,
-  'getAllOrders' : ActorMethod<[], Array<[string, Order]>>,
+  'getAllProducts' : ActorMethod<[], Array<Product>>,
   'getConfig' : ActorMethod<[], Config>,
-  'getOrder' : ActorMethod<[string], [] | [Order]>,
   'getProduct' : ActorMethod<[string], [] | [Product]>,
   'getProductsByCategory' : ActorMethod<[string], Array<Product>>,
   'getProductsByStyle' : ActorMethod<[RegionStyle], Array<Product>>,

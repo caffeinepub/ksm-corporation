@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, ShoppingBag } from 'lucide-react';
 
 interface HeroProps {
   brandName: string;
@@ -23,9 +23,9 @@ export default function Hero({ brandName, headline, description }: HeroProps) {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary/20 via-accent/20 to-background">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-accent/5 to-background min-h-[85vh] flex items-center">
       {/* Doodle background */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-20">
         <img
           src="/assets/generated/doodle-pattern-bg.dim_1600x900.png"
           alt=""
@@ -35,53 +35,87 @@ export default function Hero({ brandName, headline, description }: HeroProps) {
       </div>
 
       {/* Decorative sticker accents */}
-      <div className="absolute top-20 right-12 w-24 h-24 opacity-60 animate-bounce hidden md:block">
+      <div className="absolute top-24 right-16 w-32 h-32 opacity-40 animate-float hidden lg:block">
         <img
           src="/assets/generated/jewelry-sparkle-sticker.dim_512x512.png"
           alt=""
           aria-hidden="true"
+          className="w-full h-full object-contain sticker-shadow"
         />
       </div>
 
-      <div className="container mx-auto px-4 py-24 md:py-32 relative z-10">
-        <div className="max-w-3xl">
-          <div className="mb-6 inline-block transform hover:scale-105 transition-transform duration-300">
+      <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
+        <div className="max-w-4xl">
+          {/* Logo */}
+          <div className="mb-8 inline-block transform hover:scale-105 transition-transform duration-300">
             <img
               src="/assets/generated/ksm-corporation-logo.dim_1024x1024.png"
               alt={brandName}
-              className="h-24 w-auto drop-shadow-2xl"
+              className="h-28 w-auto drop-shadow-2xl"
             />
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-pulse">
-            {headline}
+          
+          {/* Main headline */}
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-8 display-heading">
+            <span className="block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
+              {headline}
+            </span>
           </h1>
-          <p className="text-xl md:text-2xl text-foreground/80 mb-8 leading-relaxed max-w-2xl font-medium">
+          
+          {/* Description */}
+          <p className="text-xl md:text-2xl text-foreground/70 mb-10 leading-relaxed max-w-2xl font-medium">
             {description}
           </p>
+          
+          {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4">
             <Button
               size="lg"
               onClick={handleShopNowClick}
-              className="text-base px-8 h-14 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-gradient-to-r from-primary to-accent border-4 border-primary/20"
+              className="text-lg px-10 h-16 rounded-full shadow-luxury hover:shadow-fashion transform hover:scale-105 transition-all duration-300 bg-gradient-to-r from-primary to-accent border-2 border-primary/20 font-bold"
             >
-              <Sparkles className="mr-2 h-5 w-5" />
+              <ShoppingBag className="mr-2 h-6 w-6" />
               Shop Now
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="text-base px-8 h-14 rounded-full border-4 hover:bg-primary/10 transform hover:scale-105 transition-all duration-300"
+              onClick={() => {
+                const element = document.getElementById('featured');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="text-lg px-10 h-16 rounded-full border-2 hover:bg-primary/5 hover:border-primary/50 transform hover:scale-105 transition-all duration-300 font-bold"
             >
+              <Sparkles className="mr-2 h-6 w-6" />
               Explore Collections
             </Button>
+          </div>
+          
+          {/* Trust indicators */}
+          <div className="mt-12 flex flex-wrap gap-8 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span className="font-medium">Free Shipping Over €100</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span className="font-medium">30-Day Returns</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span className="font-medium">Secure Checkout</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Decorative blobs */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl -z-10 animate-pulse" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl -z-10 animate-pulse" />
+      {/* Decorative gradient blobs */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl -z-10 animate-pulse" />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-accent/15 rounded-full blur-3xl -z-10 animate-pulse" style={{ animationDelay: '1s' }} />
     </section>
   );
 }
+

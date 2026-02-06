@@ -1,4 +1,4 @@
-import { SiFacebook, SiInstagram, SiX } from 'react-icons/si';
+import { SiFacebook, SiX, SiInstagram, SiLinkedin } from 'react-icons/si';
 import { Heart } from 'lucide-react';
 import type { Category } from '../backend';
 
@@ -8,11 +8,15 @@ interface FooterProps {
 }
 
 export default function Footer({ brandName, categories }: FooterProps) {
-  const handleNavClick = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
+  const handleCategoryClick = (categoryId: string) => {
+    // Set hash to trigger category selection
+    window.location.hash = categoryId;
+    
+    // Scroll to products section
+    const productsElement = document.getElementById('products');
+    if (productsElement) {
       const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
+      const elementPosition = productsElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
       window.scrollTo({
@@ -23,109 +27,121 @@ export default function Footer({ brandName, categories }: FooterProps) {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-card via-primary/5 to-accent/5 border-t-4 border-primary/20">
+    <footer className="bg-gradient-to-br from-primary/5 via-background to-accent/5 border-t border-border/50">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
-          <div className="col-span-1 md:col-span-2">
-            <img
-              src="/assets/generated/ksm-corporation-logo-horizontal.dim_1600x400.png"
-              alt={`${brandName} logo`}
-              className="h-10 w-auto mb-4 drop-shadow-md"
-            />
-            <p className="text-sm text-muted-foreground max-w-md leading-relaxed font-medium">
-              Fashion for everyone. Quality clothing, shoes, jewelry, and accessories from infants to adults,
-              all in one place.
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <img 
+                src="/assets/generated/ksm-corporation-logo.dim_1024x1024.png" 
+                alt={brandName}
+                className="h-10 w-10 object-contain"
+              />
+              <span className="text-xl font-black bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                {brandName}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Your one-stop destination for fashion, accessories, and lifestyle essentials.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Shop Categories */}
           <div>
-            <h4 className="font-black mb-4 text-lg">Shop</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground font-medium">
-              {categories.slice(0, 4).map((category) => (
+            <h3 className="font-bold text-lg mb-4">Shop</h3>
+            <ul className="space-y-2">
+              {categories.slice(0, 6).map((category) => (
                 <li key={category.id}>
                   <button
-                    onClick={() => handleNavClick(category.id)}
-                    className="hover:text-primary transition-colors hover:translate-x-1 transform duration-200 inline-block"
+                    onClick={() => handleCategoryClick(category.id)}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200"
                   >
                     {category.title}
                   </button>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Customer Service */}
+          <div>
+            <h3 className="font-bold text-lg mb-4">Customer Service</h3>
+            <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleNavClick('products')}
-                  className="hover:text-primary transition-colors hover:translate-x-1 transform duration-200 inline-block"
-                >
-                  Shop All
-                </button>
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200">
+                  Shipping Info
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200">
+                  Returns
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block transform duration-200">
+                  FAQ
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Connect */}
           <div>
-            <h4 className="font-black mb-4 text-lg">Company</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground font-medium">
-              <li>
-                <button
-                  onClick={() => handleNavClick('featured')}
-                  className="hover:text-primary transition-colors hover:translate-x-1 transform duration-200 inline-block"
-                >
-                  Featured
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavClick('why-us')}
-                  className="hover:text-primary transition-colors hover:translate-x-1 transform duration-200 inline-block"
-                >
-                  Why Us
-                </button>
-              </li>
-              <li><a href="#about" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-200 inline-block">About Us</a></li>
-              <li><a href="#contact" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-200 inline-block">Contact</a></li>
-            </ul>
+            <h3 className="font-bold text-lg mb-4">Connect</h3>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1"
+              >
+                <SiFacebook className="h-5 w-5 text-primary" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1"
+              >
+                <SiX className="h-5 w-5 text-primary" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1"
+              >
+                <SiInstagram className="h-5 w-5 text-primary" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1"
+              >
+                <SiLinkedin className="h-5 w-5 text-primary" />
+              </a>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t-2 border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground text-center md:text-left font-medium">
-            © 2026. Built with <Heart className="inline h-4 w-4 text-red-500 fill-red-500 animate-pulse" /> using{' '}
+        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground text-center md:text-left">
+            © 2026. Built with <Heart className="inline h-4 w-4 text-accent fill-accent" /> using{' '}
             <a
               href="https://caffeine.ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-primary transition-colors underline font-bold"
+              className="font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity"
             >
               caffeine.ai
             </a>
           </p>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-all transform hover:scale-125 duration-200"
-              aria-label="Facebook"
-            >
-              <SiFacebook className="h-5 w-5" />
+          <div className="flex gap-6 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-primary transition-colors">
+              Privacy Policy
             </a>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-all transform hover:scale-125 duration-200"
-              aria-label="Instagram"
-            >
-              <SiInstagram className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-all transform hover:scale-125 duration-200"
-              aria-label="X (Twitter)"
-            >
-              <SiX className="h-5 w-5" />
+            <a href="#" className="hover:text-primary transition-colors">
+              Terms of Service
             </a>
           </div>
         </div>

@@ -1,51 +1,110 @@
 {
   "kind": "build_request",
-  "title": "Shift storefront theme toward a more blue, less pink/purple palette",
+  "title": "Rebuild and publish multi-category company storefront with updated categories and working purchasing",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-22",
-      "text": "Update the storefront visual theme to use more blue tones and reduce/remove pink/purple hues across the UI while keeping the existing playful/cartoonish aesthetic and ensuring good text contrast and readability.",
-      "target": "frontend",
+      "id": "REQ-1",
+      "text": "Update the backend storefront configuration to represent the company’s store categories for selling physical items: Women’s Clothing, Men’s Clothing, Children’s Clothing, Infant Clothing, Shoes, Jewelry, Accessories, and Bags. Ensure `getConfig()` returns exactly these categories (with stable `id`, `title`, `description`, and `imageUrl` fields) so the frontend can render the company storefront from backend data.",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "msg-1"
         ],
         "quotes": [
-          "Can you put a little more blue color, not pinkish? ... I wanted more manly color."
+          "Yes, build everything. Rebuild everything. And then publish it. So we're trying to see the company and we can start buying items."
         ]
       },
       "acceptanceCriteria": [
-        "Global theme tokens are adjusted to emphasize blue as the primary and reduce/remove any pink/purple-leaning tones (including in light and dark mode variables).",
-        "No prominent UI elements (section gradients, buttons, cards, badges, dividers) render with clearly pink/purple styling unless it is a very subtle, non-dominant accent.",
-        "Text and interactive components maintain accessible contrast (no low-contrast text on gradients/backgrounds introduced by the palette change)."
+        "Calling `getConfig()` returns 8 categories: Women’s Clothing, Men’s Clothing, Children’s Clothing, Infant Clothing, Shoes, Jewelry, Accessories, Bags",
+        "Each category has a unique `id` suitable for use as a frontend anchor/filter key (e.g., kebab-case ids)",
+        "No NFT/crypto category is returned by the backend config"
       ]
     },
     {
-      "id": "REQ-23",
-      "text": "Replace any explicit Tailwind purple/pink gradient usages in storefront sections (e.g., featured collection cards) with blue-forward gradients that match the updated theme.",
+      "id": "REQ-2",
+      "text": "Remove NFT/crypto-related storefront UI/category data from the frontend fallbacks so the app only shows supported physical store categories when backend config is unavailable. Update the `defaultConfig` in `frontend/src/App.tsx` to match the backend categories list and ensure all user-facing text is in English.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "msg-1"
         ],
         "quotes": [
-          "put a little more blue color, not pinkish"
+          "so we can start buying items."
         ]
       },
       "acceptanceCriteria": [
-        "Featured collection cards and other gradient-based UI elements no longer use purple/pink Tailwind classes (e.g., purple-*, fuchsia-*, pink-*), and are updated to blue-forward equivalents.",
-        "The updated gradients look consistent with the rest of the site theme (header/hero/products sections) and do not introduce new clashing colors."
+        "The homepage does not show an “NFTs” category in fallback mode",
+        "Fallback categories match the backend category set and ids used by the product listing/category filtering UI",
+        "All visible labels/descriptions remain English"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Make checkout/purchasing functional in the backend by computing `totalAmount` for orders based on the products in each line item (product price × quantity), and validate that ordered items exist and are in stock. When an order is successfully placed, decrement product `stockCount` accordingly and update `inStock` when stock reaches zero.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "we can start buying items."
+        ]
+      },
+      "acceptanceCriteria": [
+        "`placeOrder(...)` returns an order id and stores an order where `totalAmount` equals the sum of line items at time of purchase",
+        "`placeOrder(...)` rejects or fails safely when a product id does not exist, or when requested quantity exceeds available stock",
+        "After a successful order, the relevant products have reduced `stockCount`, and `inStock` is false when `stockCount` is 0",
+        "The existing frontend checkout flow continues to complete and shows the returned order id"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Ensure the store has items available to browse and buy by seeding an initial catalog of products on the backend across all configured categories (including Accessories and Bags). Seeded products must include valid `categoryId`, `price`, `currency`, `imageUrl`, `sizes` (where applicable), `colors`, `inStock`, `stockCount`, and at least one `styleTags` value so the existing style filter can be exercised.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "we can start buying items."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each of the 8 categories has at least 1 product returned by `getProductsByCategory(categoryId)` after deployment",
+        "Seed products include at least one style tag so the style filter UI can show meaningful results",
+        "Seed products have non-zero stock so they can be added to cart and purchased"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Rebuild and publish the application so the latest backend + frontend changes are publicly accessible as a working company storefront that supports browsing products, adding to cart, and placing an order end-to-end.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Rebuild everything. And then publish it."
+        ]
+      },
+      "acceptanceCriteria": [
+        "A clean build succeeds for both frontend and backend",
+        "The published deployment loads without runtime errors",
+        "A user can: open the storefront, browse categories, add an in-stock product to cart, submit checkout, and receive an order confirmation with an order id"
       ]
     }
   ],
   "constraints": [
-    "Do not edit any files under frontend/src/components/ui (shadcn components); only compose/override via theme tokens and app components.",
-    "Keep all user-facing text in English and do not add any derogatory or inflammatory language to the UI."
+    "Do not add NFT/crypto buying/selling functionality (unsupported on this platform).",
+    "Backend must remain a single Motoko actor in `backend/main.mo` (no additional backend services).",
+    "Do not edit files under `frontend/src/components/ui` or the immutable hook/bootstrap paths listed in SYSTEM_CONTEXT."
   ],
   "nonGoals": [
-    "No new product features, filters, checkout changes, or backend changes.",
-    "No logo/image regeneration unless required by the palette change (not requested)."
+    "Internet Identity-based customer accounts, profiles, or order history UX beyond the current minimal flow",
+    "Payment processor integration or real money payment settlement",
+    "Third-party brand licensing/partnership catalogs",
+    "Any blockchain wallet, token, NFT minting, or crypto marketplace features"
   ],
   "imageRequirements": {
     "required": [],
@@ -54,9 +113,7 @@
   "userProfileUpdate": {
     "goalsToAdd": [],
     "goalsToRemove": [],
-    "preferencesToAdd": [
-      "Prefer a blue-forward color palette; reduce/remove pink/purple tones."
-    ],
+    "preferencesToAdd": [],
     "preferencesToRemove": [],
     "miscToAdd": [],
     "miscToRemove": [],

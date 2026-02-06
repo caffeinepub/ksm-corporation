@@ -16,35 +16,6 @@ export const RegionStyle = IDL.Variant({
   'american' : IDL.Null,
   'canadian' : IDL.Null,
 });
-export const OrderLineItem = IDL.Record({
-  'color' : IDL.Opt(IDL.Text),
-  'size' : IDL.Opt(IDL.Text),
-  'productId' : IDL.Text,
-  'quantity' : IDL.Nat,
-});
-export const Time = IDL.Int;
-export const Order = IDL.Record({
-  'id' : IDL.Text,
-  'lineItems' : IDL.Vec(OrderLineItem),
-  'buyerEmail' : IDL.Text,
-  'totalAmount' : IDL.Nat,
-  'currency' : IDL.Text,
-  'timestamp' : Time,
-  'shippingAddress' : IDL.Text,
-  'buyerName' : IDL.Text,
-});
-export const Category = IDL.Record({
-  'id' : IDL.Text,
-  'title' : IDL.Text,
-  'description' : IDL.Text,
-  'imageUrl' : IDL.Text,
-});
-export const Config = IDL.Record({
-  'categories' : IDL.Vec(Category),
-  'heroDescription' : IDL.Text,
-  'brandName' : IDL.Text,
-  'heroHeadline' : IDL.Text,
-});
 export const Product = IDL.Record({
   'id' : IDL.Text,
   'categoryId' : IDL.Text,
@@ -58,6 +29,24 @@ export const Product = IDL.Record({
   'colors' : IDL.Vec(IDL.Text),
   'price' : IDL.Nat,
   'styleTags' : IDL.Vec(RegionStyle),
+});
+export const Category = IDL.Record({
+  'id' : IDL.Text,
+  'title' : IDL.Text,
+  'description' : IDL.Text,
+  'imageUrl' : IDL.Text,
+});
+export const Config = IDL.Record({
+  'categories' : IDL.Vec(Category),
+  'heroDescription' : IDL.Text,
+  'brandName' : IDL.Text,
+  'heroHeadline' : IDL.Text,
+});
+export const OrderLineItem = IDL.Record({
+  'color' : IDL.Opt(IDL.Text),
+  'size' : IDL.Opt(IDL.Text),
+  'productId' : IDL.Text,
+  'quantity' : IDL.Nat,
 });
 
 export const idlService = IDL.Service({
@@ -77,13 +66,8 @@ export const idlService = IDL.Service({
       [IDL.Text],
       [],
     ),
-  'getAllOrders' : IDL.Func(
-      [],
-      [IDL.Vec(IDL.Tuple(IDL.Text, Order))],
-      ['query'],
-    ),
+  'getAllProducts' : IDL.Func([], [IDL.Vec(Product)], ['query']),
   'getConfig' : IDL.Func([], [Config], []),
-  'getOrder' : IDL.Func([IDL.Text], [IDL.Opt(Order)], ['query']),
   'getProduct' : IDL.Func([IDL.Text], [IDL.Opt(Product)], ['query']),
   'getProductsByCategory' : IDL.Func([IDL.Text], [IDL.Vec(Product)], ['query']),
   'getProductsByStyle' : IDL.Func([RegionStyle], [IDL.Vec(Product)], ['query']),
@@ -105,35 +89,6 @@ export const idlFactory = ({ IDL }) => {
     'american' : IDL.Null,
     'canadian' : IDL.Null,
   });
-  const OrderLineItem = IDL.Record({
-    'color' : IDL.Opt(IDL.Text),
-    'size' : IDL.Opt(IDL.Text),
-    'productId' : IDL.Text,
-    'quantity' : IDL.Nat,
-  });
-  const Time = IDL.Int;
-  const Order = IDL.Record({
-    'id' : IDL.Text,
-    'lineItems' : IDL.Vec(OrderLineItem),
-    'buyerEmail' : IDL.Text,
-    'totalAmount' : IDL.Nat,
-    'currency' : IDL.Text,
-    'timestamp' : Time,
-    'shippingAddress' : IDL.Text,
-    'buyerName' : IDL.Text,
-  });
-  const Category = IDL.Record({
-    'id' : IDL.Text,
-    'title' : IDL.Text,
-    'description' : IDL.Text,
-    'imageUrl' : IDL.Text,
-  });
-  const Config = IDL.Record({
-    'categories' : IDL.Vec(Category),
-    'heroDescription' : IDL.Text,
-    'brandName' : IDL.Text,
-    'heroHeadline' : IDL.Text,
-  });
   const Product = IDL.Record({
     'id' : IDL.Text,
     'categoryId' : IDL.Text,
@@ -147,6 +102,24 @@ export const idlFactory = ({ IDL }) => {
     'colors' : IDL.Vec(IDL.Text),
     'price' : IDL.Nat,
     'styleTags' : IDL.Vec(RegionStyle),
+  });
+  const Category = IDL.Record({
+    'id' : IDL.Text,
+    'title' : IDL.Text,
+    'description' : IDL.Text,
+    'imageUrl' : IDL.Text,
+  });
+  const Config = IDL.Record({
+    'categories' : IDL.Vec(Category),
+    'heroDescription' : IDL.Text,
+    'brandName' : IDL.Text,
+    'heroHeadline' : IDL.Text,
+  });
+  const OrderLineItem = IDL.Record({
+    'color' : IDL.Opt(IDL.Text),
+    'size' : IDL.Opt(IDL.Text),
+    'productId' : IDL.Text,
+    'quantity' : IDL.Nat,
   });
   
   return IDL.Service({
@@ -166,13 +139,8 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Text],
         [],
       ),
-    'getAllOrders' : IDL.Func(
-        [],
-        [IDL.Vec(IDL.Tuple(IDL.Text, Order))],
-        ['query'],
-      ),
+    'getAllProducts' : IDL.Func([], [IDL.Vec(Product)], ['query']),
     'getConfig' : IDL.Func([], [Config], []),
-    'getOrder' : IDL.Func([IDL.Text], [IDL.Opt(Order)], ['query']),
     'getProduct' : IDL.Func([IDL.Text], [IDL.Opt(Product)], ['query']),
     'getProductsByCategory' : IDL.Func(
         [IDL.Text],

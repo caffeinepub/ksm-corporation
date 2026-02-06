@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,80 +8,87 @@
     :root {
         --radius: 1rem;
         
-        /* Playful, cartoonish color palette - blue-forward */
-        --background: 0.98 0.01 240;
-        --foreground: 0.25 0.02 240;
+        /* Fashion-forward color palette - sophisticated with playful accents */
+        --background: 0.99 0.005 240;
+        --foreground: 0.20 0.015 240;
         
         --card: 1 0 0;
-        --card-foreground: 0.25 0.02 240;
+        --card-foreground: 0.20 0.015 240;
         
         --popover: 1 0 0;
-        --popover-foreground: 0.25 0.02 240;
+        --popover-foreground: 0.20 0.015 240;
         
-        /* Vibrant primary - bright blue */
-        --primary: 0.60 0.20 250;
+        /* Elegant primary - deep fashion blue */
+        --primary: 0.45 0.18 250;
         --primary-foreground: 0.99 0.01 250;
         
-        /* Warm secondary */
-        --secondary: 0.95 0.02 60;
+        /* Warm secondary - cream/beige */
+        --secondary: 0.96 0.015 60;
         --secondary-foreground: 0.30 0.02 60;
         
-        --muted: 0.95 0.02 240;
-        --muted-foreground: 0.55 0.02 240;
+        --muted: 0.96 0.01 240;
+        --muted-foreground: 0.50 0.015 240;
         
-        /* Playful accent - bright orange */
-        --accent: 0.75 0.18 40;
-        --accent-foreground: 0.25 0.02 40;
+        /* Luxury accent - rose gold */
+        --accent: 0.70 0.15 30;
+        --accent-foreground: 0.20 0.02 30;
         
-        --destructive: 0.60 0.24 20;
+        /* Success - emerald green */
+        --success: 0.65 0.20 160;
+        --success-foreground: 0.99 0.01 160;
+        
+        --destructive: 0.55 0.22 20;
         --destructive-foreground: 0.99 0 0;
         
-        --border: 0.88 0.02 240;
-        --input: 0.88 0.02 240;
-        --ring: 0.60 0.20 250;
+        --border: 0.90 0.01 240;
+        --input: 0.90 0.01 240;
+        --ring: 0.45 0.18 250;
         
-        --chart-1: 0.60 0.20 250;
-        --chart-2: 0.75 0.18 40;
-        --chart-3: 0.65 0.22 140;
-        --chart-4: 0.70 0.20 200;
-        --chart-5: 0.55 0.18 180;
+        --chart-1: 0.45 0.18 250;
+        --chart-2: 0.70 0.15 30;
+        --chart-3: 0.65 0.20 160;
+        --chart-4: 0.60 0.18 200;
+        --chart-5: 0.55 0.16 280;
     }
 
     .dark {
-        --background: 0.18 0.02 240;
+        --background: 0.15 0.015 240;
         --foreground: 0.97 0.01 60;
         
-        --card: 0.22 0.02 240;
+        --card: 0.18 0.015 240;
         --card-foreground: 0.97 0.01 60;
         
-        --popover: 0.22 0.02 240;
+        --popover: 0.18 0.015 240;
         --popover-foreground: 0.97 0.01 60;
         
         /* Brighter primary for dark mode */
-        --primary: 0.70 0.22 250;
-        --primary-foreground: 0.18 0.02 250;
+        --primary: 0.65 0.20 250;
+        --primary-foreground: 0.15 0.015 250;
         
-        --secondary: 0.25 0.02 240;
+        --secondary: 0.22 0.015 240;
         --secondary-foreground: 0.97 0.01 60;
         
-        --muted: 0.25 0.02 240;
-        --muted-foreground: 0.65 0.02 60;
+        --muted: 0.22 0.015 240;
+        --muted-foreground: 0.60 0.015 60;
         
-        --accent: 0.80 0.20 40;
-        --accent-foreground: 0.18 0.02 40;
+        --accent: 0.75 0.18 30;
+        --accent-foreground: 0.15 0.015 30;
         
-        --destructive: 0.65 0.26 20;
+        --success: 0.70 0.22 160;
+        --success-foreground: 0.15 0.015 160;
+        
+        --destructive: 0.60 0.24 20;
         --destructive-foreground: 0.97 0 0;
         
-        --border: 0.30 0.02 240;
-        --input: 0.30 0.02 240;
-        --ring: 0.70 0.22 250;
+        --border: 0.25 0.015 240;
+        --input: 0.25 0.015 240;
+        --ring: 0.65 0.20 250;
         
-        --chart-1: 0.70 0.22 250;
-        --chart-2: 0.80 0.20 40;
-        --chart-3: 0.70 0.24 140;
-        --chart-4: 0.75 0.22 200;
-        --chart-5: 0.60 0.20 180;
+        --chart-1: 0.65 0.20 250;
+        --chart-2: 0.75 0.18 30;
+        --chart-3: 0.70 0.22 160;
+        --chart-4: 0.65 0.20 200;
+        --chart-5: 0.60 0.18 280;
     }
 
     * {
@@ -92,22 +99,46 @@
         @apply bg-background text-foreground;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-feature-settings: 'cv11', 'ss01';
+        font-optical-sizing: auto;
     }
     
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Fredoka', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-weight: 700;
-        letter-spacing: -0.01em;
+        letter-spacing: -0.02em;
+    }
+    
+    .display-heading {
+        font-family: 'Playfair Display', 'Fredoka', serif;
+        font-weight: 900;
+        letter-spacing: -0.03em;
     }
 }
 
-/* Playful utility classes */
+/* Fashion-forward utility classes */
 @layer utilities {
     .sticker-shadow {
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
     }
     
     .bubble-border {
         border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     }
+    
+    .fashion-gradient {
+        background: linear-gradient(135deg, oklch(var(--primary)) 0%, oklch(var(--accent)) 100%);
+    }
+    
+    .luxury-shadow {
+        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 4px 12px -4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-hover {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .product-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
 }
+

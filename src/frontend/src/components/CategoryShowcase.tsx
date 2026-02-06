@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Shirt, Baby, Gem, Footprints, PawPrint, Users, Package } from 'lucide-react';
+import { Shirt, Baby, Gem, Footprints, Users, ShoppingBag, Watch } from 'lucide-react';
 import type { Category } from '../backend';
 
 interface CategoryShowcaseProps {
@@ -8,35 +8,37 @@ interface CategoryShowcaseProps {
 }
 
 const iconMap: Record<string, any> = {
-  men: Shirt,
-  women: Users,
-  children: Users,
-  infants: Baby,
-  jewelry: Gem,
-  shoes: Footprints,
-  pets: PawPrint,
-  lifestyle: Package,
-  nfts: Gem,
+  'womens-clothing': Users,
+  'mens-clothing': Shirt,
+  'childrens-clothing': Users,
+  'infant-clothing': Baby,
+  'jewelry': Gem,
+  'shoes': Footprints,
+  'accessories': Watch,
+  'bags': ShoppingBag,
 };
 
 const gradientMap: Record<string, string> = {
-  men: 'from-blue-400 via-blue-500 to-blue-600',
-  women: 'from-cyan-400 via-cyan-500 to-cyan-600',
-  children: 'from-green-400 via-green-500 to-green-600',
-  infants: 'from-sky-400 via-sky-500 to-sky-600',
-  jewelry: 'from-yellow-400 via-yellow-500 to-yellow-600',
-  shoes: 'from-orange-400 via-orange-500 to-orange-600',
-  pets: 'from-teal-400 via-teal-500 to-teal-600',
-  lifestyle: 'from-emerald-400 via-emerald-500 to-emerald-600',
-  nfts: 'from-indigo-400 via-indigo-500 to-indigo-600',
+  'womens-clothing': 'from-rose-400 via-rose-500 to-rose-600',
+  'mens-clothing': 'from-blue-400 via-blue-500 to-blue-600',
+  'childrens-clothing': 'from-green-400 via-green-500 to-green-600',
+  'infant-clothing': 'from-sky-400 via-sky-500 to-sky-600',
+  'jewelry': 'from-yellow-400 via-yellow-500 to-yellow-600',
+  'shoes': 'from-orange-400 via-orange-500 to-orange-600',
+  'accessories': 'from-purple-400 via-purple-500 to-purple-600',
+  'bags': 'from-teal-400 via-teal-500 to-teal-600',
 };
 
 export default function CategoryShowcase({ brandName, categories }: CategoryShowcaseProps) {
   const handleCategoryClick = (categoryId: string) => {
-    const element = document.getElementById(categoryId);
-    if (element) {
+    // Set hash to trigger category selection in ProductsSection
+    window.location.hash = categoryId;
+    
+    // Scroll to products section
+    const productsElement = document.getElementById('products');
+    if (productsElement) {
       const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
+      const elementPosition = productsElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
       window.scrollTo({
@@ -60,7 +62,7 @@ export default function CategoryShowcase({ brandName, categories }: CategoryShow
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {categories.map((category) => {
-            const Icon = iconMap[category.id] || Package;
+            const Icon = iconMap[category.id] || ShoppingBag;
             const gradient = gradientMap[category.id] || 'from-gray-400 via-gray-500 to-gray-600';
 
             return (
@@ -94,7 +96,7 @@ export default function CategoryShowcase({ brandName, categories }: CategoryShow
             </h3>
             <p className="text-lg text-foreground/80 leading-relaxed font-medium">
               {brandName} started with one idea: to create a place where everyone can find the style they want in one store.
-              From clothes for men, women, and children to shoes, jewelry, and sportswear, {brandName} brings everything together under one name.
+              From clothes for men, women, and children to shoes, jewelry, and accessories, {brandName} brings everything together under one name.
               The goal is simple: make fashion easy, affordable, and available for everyone in one place.
             </p>
           </div>

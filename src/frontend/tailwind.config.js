@@ -18,6 +18,7 @@ export default {
             fontFamily: {
                 sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                 display: ['Fredoka', 'Inter', 'system-ui', 'sans-serif'],
+                serif: ['Playfair Display', 'Georgia', 'serif'],
             },
             colors: {
                 border: 'oklch(var(--border))',
@@ -44,6 +45,10 @@ export default {
                 accent: {
                     DEFAULT: 'oklch(var(--accent) / <alpha-value>)',
                     foreground: 'oklch(var(--accent-foreground))'
+                },
+                success: {
+                    DEFAULT: 'oklch(var(--success) / <alpha-value>)',
+                    foreground: 'oklch(var(--success-foreground))'
                 },
                 popover: {
                     DEFAULT: 'oklch(var(--popover))',
@@ -81,8 +86,10 @@ export default {
             },
             boxShadow: {
                 xs: '0 1px 2px 0 rgba(0,0,0,0.05)',
-                'soft': '0 2px 8px -2px rgba(0,0,0,0.1)',
-                'playful': '0 8px 24px -4px rgba(0,0,0,0.15), 0 4px 8px -2px rgba(0,0,0,0.1)',
+                'soft': '0 2px 8px -2px rgba(0,0,0,0.08)',
+                'playful': '0 8px 24px -4px rgba(0,0,0,0.12), 0 4px 8px -2px rgba(0,0,0,0.08)',
+                'luxury': '0 10px 40px -10px rgba(0,0,0,0.15), 0 4px 12px -4px rgba(0,0,0,0.1)',
+                'fashion': '0 20px 60px -15px rgba(0,0,0,0.2), 0 8px 20px -8px rgba(0,0,0,0.15)',
             },
             keyframes: {
                 'accordion-down': {
@@ -96,14 +103,25 @@ export default {
                 'bounce': {
                     '0%, 100%': { transform: 'translateY(0)' },
                     '50%': { transform: 'translateY(-10px)' }
+                },
+                'float': {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-20px)' }
+                },
+                'shimmer': {
+                    '0%': { backgroundPosition: '-200% 0' },
+                    '100%': { backgroundPosition: '200% 0' }
                 }
             },
             animation: {
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
-                'bounce': 'bounce 3s ease-in-out infinite'
+                'bounce': 'bounce 3s ease-in-out infinite',
+                'float': 'float 4s ease-in-out infinite',
+                'shimmer': 'shimmer 3s linear infinite'
             }
         }
     },
     plugins: [typography, containerQueries, animate]
 };
+

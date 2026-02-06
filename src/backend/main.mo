@@ -1,19 +1,12 @@
-import List "mo:core/List";
 import Map "mo:core/Map";
+import List "mo:core/List";
+import Array "mo:core/Array";
+import Nat "mo:core/Nat";
 import Text "mo:core/Text";
 import Time "mo:core/Time";
-import Nat "mo:core/Nat";
-import Array "mo:core/Array";
-
-
+import Iter "mo:core/Iter";
 
 actor {
-  var nextProductId = 1;
-  var nextOrderId = 1;
-
-  let products = Map.empty<Text, Product>();
-  let orders = Map.empty<Text, Order>();
-
   type RegionStyle = {
     #american;
     #european;
@@ -23,50 +16,14 @@ actor {
     #southAmerican;
   };
 
-  let categories = List.fromArray<Category>([
-    {
-      title = "Men"; description = "Fashion and accessories for men"; imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/1mUilunwnb5RKRJtv1fk43/1d24fdf557c2bfbe1f116e575e0b57fe/mens.jpg?w=1920&q=50&fm=webp";
-      id = "men";
-    },
-    {
-      title = "Women";
-      description = "Latest trends for women";
-      imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/4VnJ5Nd4PbZ4EphCYBWBI3/48e5b6e420e61d7df43cb3ad1b5dd9bf/womens.jpg?w=1920&q=50&fm=webp";
-      id = "women";
-    },
-    {
-      title = "Children";
-      description = "Clothing for kids";
-      imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/43rczXctlv5o3kChhqjwac/260e99c999a157ac1cb41aae6c81db21/children.jpg?w=1920&q=50&fm=webp";
-      id = "children";
-    },
-    {
-      title = "Infants";
-      description = "Fashion for babies";
-      imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/4ZX1JSOzWY7Cd3tcbifjVY/73894af05653a9dadc5eb8e616e774b4/infants.jpg?w=1920&q=50&fm=webp";
-      id = "infants";
-    },
-    {
-      title = "Jewelry";
-      description = "Accessories for all occasions";
-      imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/BhECtGRqtUd7eZJ2TCeEr/50ea6fefbea4f2902a786adcead11480/jewelry.jpg?w=1920&q=50&fm=webp";
-      id = "jewelry";
-    },
-    {
-      title = "Shoes";
-      description = "Footwear for everyone";
-      imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/7JSjphlLSNJyD7AcmJN9qw/28c42e3720c8828fee5f7b8dfeaa0a05/shoes.jpg?w=1920&q=50&fm=webp";
-      id = "shoes";
-    },
-    {
-      title = "Pets";
-      description = "Pet fashion and accessories";
-      imageUrl = "https://images.ctfassets.net/rk3vdgdr1eu6/1z7rFQf6d9GrzmlglTokLG/ac66e274b3d4bf0bdeb795c40be338f3/pets.jpg?w=1920&q=50&fm=webp";
-      id = "pets";
-    },
-  ]);
+  type Category = {
+    id : Text;
+    title : Text;
+    description : Text;
+    imageUrl : Text;
+  };
 
-  public type Product = {
+  type Product = {
     id : Text;
     name : Text;
     description : Text;
@@ -81,14 +38,14 @@ actor {
     styleTags : [RegionStyle];
   };
 
-  public type OrderLineItem = {
+  type OrderLineItem = {
     productId : Text;
     quantity : Nat;
     size : ?Text;
     color : ?Text;
   };
 
-  public type Order = {
+  type Order = {
     id : Text;
     buyerName : Text;
     buyerEmail : Text;
@@ -99,39 +56,76 @@ actor {
     timestamp : Time.Time;
   };
 
-  public type Category = {
-    title : Text;
-    description : Text;
-    imageUrl : Text;
-    id : Text;
-  };
-
-  public type Config = {
+  type Config = {
     brandName : Text;
     heroHeadline : Text;
     heroDescription : Text;
     categories : [Category];
   };
 
-  public query ({ caller }) func getProductsByStyle(styleFilter : RegionStyle) : async [Product] {
-    let filteredProducts = products.filter(
-      func(_id, product) {
-        product.styleTags.find(
-          func(style) {
-            style == styleFilter;
-          }
-        ) != null;
-      }
-    );
-    let iter = filteredProducts.values();
-    iter.toArray();
-  };
+  var nextProductId = 1;
+  var nextOrderId = 1;
+
+  let products = Map.empty<Text, Product>();
+  let orders = Map.empty<Text, Order>();
+
+  let categories = List.fromArray<Category>([
+    // Hardcoded with stable ids for consistency across requests and upgrades
+    {
+      id = "womens-clothing";
+      title = "Women’s Clothing";
+      description = "Modern styles and timeless classics for women.";
+      imageUrl = "/assets/images/women.jpg";
+    },
+    {
+      id = "mens-clothing";
+      title = "Men’s Clothing";
+      description = "Fashionable and functional apparel for men.";
+      imageUrl = "/assets/images/men.jpg";
+    },
+    {
+      id = "childrens-clothing";
+      title = "Children’s Clothing";
+      description = "Fun, durable clothing for kids of all ages.";
+      imageUrl = "/assets/images/children.jpg";
+    },
+    {
+      id = "infant-clothing";
+      title = "Infant Clothing";
+      description = "Soft, safe clothing for newborns and babies.";
+      imageUrl = "/assets/images/infants.jpg";
+    },
+    {
+      id = "shoes";
+      title = "Shoes";
+      description = "Footwear for every occasion and season.";
+      imageUrl = "/assets/images/shoes.jpg";
+    },
+    {
+      id = "jewelry";
+      title = "Jewelry";
+      description = "Elegant and trendy jewelry and accessories.";
+      imageUrl = "/assets/images/jewelry.jpg";
+    },
+    {
+      id = "accessories";
+      title = "Accessories";
+      description = "Handbags, wallets, scarves, and more";
+      imageUrl = "/assets/images/accessories.jpg";
+    },
+    {
+      id = "bags";
+      title = "Bags";
+      description = "Totes, crossbody bags, backpacks, and luggage";
+      imageUrl = "/assets/images/bags.jpg";
+    },
+  ]);
 
   public shared ({ caller }) func getConfig() : async Config {
     {
-      brandName = "Linden Storefront";
-      heroHeadline = "Clothing for every occasion";
-      heroDescription = "Discover our latest collection of men's, women's, and children's clothing. Shop now and enjoy free delivery in Europe for orders above 100€.";
+      brandName = "Linden-Storefront";
+      heroHeadline = "Explore the Latest Fashion";
+      heroDescription = "Clothing essentials for women, men, and children, plus accessories and jewelry. Shop high-quality shoes and bags and enjoy convenient buying experience.";
       categories = categories.toArray();
     };
   };
@@ -176,8 +170,27 @@ actor {
     iter.toArray();
   };
 
+  public query ({ caller }) func getProductsByStyle(styleFilter : RegionStyle) : async [Product] {
+    let filteredProducts = products.filter(
+      func(_id, product) {
+        product.styleTags.find(
+          func(style) {
+            style == styleFilter;
+          }
+        ) != null;
+      }
+    );
+    let iter = filteredProducts.values();
+    iter.toArray();
+  };
+
   public query ({ caller }) func getProduct(productId : Text) : async ?Product {
     products.get(productId);
+  };
+
+  public query ({ caller }) func getAllProducts() : async [Product] {
+    let iter = products.values();
+    iter.toArray();
   };
 
   public shared ({ caller }) func placeOrder(
@@ -187,28 +200,54 @@ actor {
     lineItems : [OrderLineItem],
     currency : Text,
   ) : async Text {
+    var totalAmount = 0;
+    let validatedLineItems : List.List<OrderLineItem> = List.empty<OrderLineItem>();
+
+    // Validate each line item before looping to compute total
+    for (item in lineItems.values()) {
+      switch (products.get(item.productId)) {
+        case (null) { assert false };
+        case (?product) {
+          assert item.quantity > 0;
+          assert item.quantity <= product.stockCount;
+          totalAmount += product.price * item.quantity;
+          validatedLineItems.add(item);
+        };
+      };
+    };
+
     let orderId = nextOrderId.toText();
-    let totalAmount = 0;
     let order : Order = {
       id = orderId;
       buyerName;
       buyerEmail;
       shippingAddress;
-      lineItems;
+      lineItems = validatedLineItems.toArray();
       totalAmount;
       currency;
       timestamp = Time.now();
     };
+
+    // Persist order
     orders.add(orderId, order);
     nextOrderId += 1;
+
+    // Update stock for purchased products
+    for (item in lineItems.values()) {
+      switch (products.get(item.productId)) {
+        case (null) { () };
+        case (?product) {
+          let newStock = product.stockCount - item.quantity;
+          let updatedProduct : Product = {
+            product with
+            stockCount = newStock;
+            inStock = newStock > 0;
+          };
+          products.add(item.productId, updatedProduct);
+        };
+      };
+    };
+
     orderId;
-  };
-
-  public query ({ caller }) func getOrder(orderId : Text) : async ?Order {
-    orders.get(orderId);
-  };
-
-  public query ({ caller }) func getAllOrders() : async [(Text, Order)] {
-    orders.toArray();
   };
 };

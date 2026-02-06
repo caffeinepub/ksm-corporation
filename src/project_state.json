@@ -1,146 +1,26 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
-  "summary": "Build KSM Corporation, a large multi-category online clothing retailer/brand spanning infants through adults (men/women), plus jewelry, shoes (sneakers/boots), and pet clothing (dogs/cats), with plans to eventually carry major third‑party brands via partnerships/licensing. Store offering should include clothing styles influenced by American, European (incl. Italian), Australian, Canadian, and South American fashion.",
+  "projectStateVersion": 3,
+  "summary": "Build and publish a company e-commerce app/storefront with product categories (jewelry, clothing by demographic, shoes, accessories, bags) so customers can browse and buy items.",
   "architectural_notes": [
-    "Selling third-party luxury/name brands requires official partnerships/licensing; start with KSM-branded products and add external brands after agreements."
+    "Platform may not support NFT/crypto buying/selling features; treat as blocked/out-of-scope unless platform capabilities change."
   ],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-generate-a-primary-store-logo-for-the-brand-name-ksm-corporation-and-add-it-to-the-project-as-a-static-asset",
-      "title": "Generate a primary store logo for the brand name \"KSM Corporation\" and add it to the project as a static asset.",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-simple-storefront-header-component-that-displays-the-ksm-corporation-logo-from-static-assets-and-the-store-name-as-accessible-text",
-      "title": "Add a simple storefront header component that displays the KSM Corporation logo (from static assets) and the store name as accessible text.",
+      "id": "feature-remove-nft-crypto-related-storefront-ui-category-data-from-the-frontend-fallbacks-so-the-app-only-shows-supported-physical-store-categories-when-backend-config-is-unavailable-update-the-defaultconfig-in-frontend-src-app-tsx-to-match-the-backend-categories-list-and-ensure-all-user-facing-text-is-in-english",
+      "title": "Remove NFT/crypto-related storefront UI/category data from the frontend fallbacks so the app only shows supported physical store categories when backend config is unavailable. Update the `defaultConfig` in `frontend/src/App.tsx` to match the backend categories list and ensure all user-facing text is in English.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-establish-a-coherent-creative-visual-theme-for-the-storefront-ui-colors-typography-spacing-and-component-styling-and-apply-it-consistently-across-the-main-layout",
-      "title": "Establish a coherent, creative visual theme for the storefront UI (colors, typography, spacing, and component styling) and apply it consistently across the main layout.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-homepage-layout-to-be-a-more-complete-scrollable-landing-page-by-adding-at-least-these-sections-below-the-existing-hero-1-a-featured-collections-section-2-a-why-shop-with-us-trust-highlights-section-and-3-a-simple-newsletter-signup-call-to-action-section-ensure-all-sections-are-responsive-and-match-the-existing-visual-theme",
-      "title": "Update the homepage layout to be a more complete, scrollable landing page by adding at least these sections below the existing hero: (1) a \"Featured Collections\" section, (2) a \"Why shop with us\"/trust highlights section, and (3) a simple newsletter/signup call-to-action section. Ensure all sections are responsive and match the existing visual theme.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-make-the-header-navigation-links-reliably-navigate-to-the-corresponding-homepage-sections-by-ensuring-each-target-section-has-a-stable-anchor-id-and-that-clicking-a-nav-item-scrolls-to-that-section-including-for-the-categories-already-shown-add-a-working-mobile-navigation-experience-e-g-an-expandable-menu-so-the-same-links-are-accessible-on-small-screens",
-      "title": "Make the header navigation links reliably navigate to the corresponding homepage sections by ensuring each target section has a stable anchor id and that clicking a nav item scrolls to that section (including for the categories already shown). Add a working mobile navigation experience (e.g., an expandable menu) so the same links are accessible on small screens.",
+      "id": "feature-rebuild-and-publish-the-application-so-the-latest-backend-frontend-changes-are-publicly-accessible-as-a-working-company-storefront-that-supports-browsing-products-adding-to-cart-and-placing-an-order-end-to-end",
+      "title": "Rebuild and publish the application so the latest backend + frontend changes are publicly accessible as a working company storefront that supports browsing products, adding to cart, and placing an order end-to-end.",
       "reqIds": [
         "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-backend-coding-by-implementing-a-minimal-motoko-api-that-provides-storefront-configuration-data-brand-store-name-hero-headline-description-and-the-category-list-used-on-the-homepage-update-the-frontend-to-fetch-this-configuration-with-react-query-and-render-the-homepage-content-from-the-fetched-data-falling-back-to-current-hardcoded-defaults-if-the-backend-call-fails",
-      "title": "Add backend \"coding\" by implementing a minimal Motoko API that provides storefront configuration data (brand/store name, hero headline/description, and the category list used on the homepage). Update the frontend to fetch this configuration with React Query and render the homepage content from the fetched data (falling back to current hardcoded defaults if the backend call fails).",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-support-the-brand-name-coding-company-corporation-by-making-the-displayed-brand-store-name-come-from-the-backend-configuration-req-6-and-ensuring-it-is-used-consistently-for-accessible-text-e-g-image-alt-text-sr-only-labels-and-any-visible-store-name-text-do-not-remove-existing-ksm-logo-assets-only-update-text-labels-to-be-data-driven",
-      "title": "Support the brand name \"Coding Company Corporation\" by making the displayed brand/store name come from the backend configuration (REQ-6) and ensuring it is used consistently for accessible text (e.g., image alt text, sr-only labels, and any visible store name text). Do not remove existing KSM logo assets; only update text/labels to be data-driven.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-new-homepage-section-that-lists-clothing-products-for-sale-implement-a-responsive-product-grid-with-1-category-filtering-using-the-backend-category-ids-2-product-cards-image-name-price-quick-actions-and-3-a-product-detail-view-modal-drawer-page-section-allowing-selection-of-size-color-and-quantity",
-      "title": "Add a new homepage section that lists clothing products for sale. Implement a responsive product grid with: (1) category filtering using the backend category ids, (2) product cards (image, name, price, quick actions), and (3) a product detail view (modal/drawer/page section) allowing selection of size/color and quantity.",
-      "reqIds": [
-        "REQ-11"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-a-simple-cart-and-checkout-flow-in-the-frontend-add-add-to-cart-from-product-cards-detail-provide-a-cart-ui-sheet-drawer-accessible-from-the-header-cart-icon-and-add-a-checkout-form-that-submits-an-order-to-the-backend-order-api-and-shows-an-order-confirmation-state-containing-the-returned-orderid",
-      "title": "Implement a simple cart and checkout flow in the frontend. Add “Add to cart” from product cards/detail, provide a cart UI (sheet/drawer) accessible from the header cart icon, and add a checkout form that submits an order to the backend order API and shows an order confirmation state containing the returned orderId.",
-      "reqIds": [
-        "REQ-12"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-make-the-storefront-visual-design-more-cartoonish-colorful-and-playful-across-the-main-layout-and-key-sections-header-hero-categories-featured-collections-trust-highlights-newsletter-footer-and-the-new-products-cart-checkout-ui-update-theme-tokens-and-component-styling-to-increase-color-variety-add-playful-rounded-shapes-subtle-sticker-like-accents-and-a-cohesive-cartoon-like-aesthetic-while-keeping-text-readable-and-accessible",
-      "title": "Make the storefront visual design more cartoonish, colorful, and playful across the main layout and key sections (header, hero, categories, featured collections, trust highlights, newsletter, footer, and the new products/cart/checkout UI). Update theme tokens and component styling to increase color variety, add playful rounded shapes, subtle sticker-like accents, and a cohesive cartoon-like aesthetic while keeping text readable and accessible.",
-      "reqIds": [
-        "REQ-13"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-header-navigation-so-it-reflects-the-clothing-storefront-and-reliably-navigates-to-relevant-sections-navigation-should-include-a-link-to-the-products-section-and-clothing-category-anchors-returned-by-the-backend-config-while-keeping-links-to-existing-homepage-sections-e-g-featured-why-us",
-      "title": "Update header navigation so it reflects the clothing storefront and reliably navigates to relevant sections. Navigation should include a link to the products section and clothing category anchors returned by the backend config, while keeping links to existing homepage sections (e.g., featured, why-us).",
-      "reqIds": [
-        "REQ-14"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-newly-generated-cartoon-style-static-images-to-the-project-and-incorporate-them-into-the-ui-as-decorative-accents-e-g-hero-background-section-dividers-product-placeholders-without-routing-images-through-the-backend",
-      "title": "Add newly generated cartoon-style static images to the project and incorporate them into the UI as decorative accents (e.g., hero background, section dividers, product placeholders) without routing images through the backend.",
-      "reqIds": [
-        "REQ-15"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-expose-the-supported-region-inspired-style-options-in-storefront-configuration-and-use-them-in-the-frontend-as-the-canonical-list-american-european-italian-australian-canadian-south-american",
-      "title": "Expose the supported region-inspired style options in storefront configuration and use them in the frontend as the canonical list: American, European, Italian, Australian, Canadian, South American.",
-      "reqIds": [
-        "REQ-18"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-style-based-browsing-in-the-products-section-ui-provide-a-style-filter-driven-by-the-backend-config-style-options-and-filter-the-displayed-products-by-the-selected-style-tag-in-addition-to-the-existing-category-filtering",
-      "title": "Add style-based browsing in the Products section UI: provide a style filter driven by the backend config style options, and filter the displayed products by the selected style tag in addition to the existing category filtering.",
-      "reqIds": [
-        "REQ-19"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-surface-style-information-on-product-ui-by-displaying-a-product-s-style-tags-in-product-cards-and-the-product-detail-dialog-using-clear-readable-english-labels",
-      "title": "Surface style information on product UI by displaying a product’s style tags in product cards and the product detail dialog using clear, readable English labels.",
-      "reqIds": [
-        "REQ-20"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-storefront-visual-theme-to-use-more-blue-tones-and-reduce-remove-pink-purple-hues-across-the-ui-while-keeping-the-existing-playful-cartoonish-aesthetic-and-ensuring-good-text-contrast-and-readability",
-      "title": "Update the storefront visual theme to use more blue tones and reduce/remove pink/purple hues across the UI while keeping the existing playful/cartoonish aesthetic and ensuring good text contrast and readability.",
-      "reqIds": [
-        "REQ-22"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-replace-any-explicit-tailwind-purple-pink-gradient-usages-in-storefront-sections-e-g-featured-collection-cards-with-blue-forward-gradients-that-match-the-updated-theme",
-      "title": "Replace any explicit Tailwind purple/pink gradient usages in storefront sections (e.g., featured collection cards) with blue-forward gradients that match the updated theme.",
-      "reqIds": [
-        "REQ-23"
       ],
       "version": 1
     }
@@ -148,103 +28,54 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Create online store plan/structure for KSM Corporation (multi-category retail spanning infants to adults)",
+      "summary": "Rebuild/redeploy the app and publish it for public access",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Define full product category taxonomy (infants/children/adults; tops/bottoms/underwear/bras; shoes; jewelry; pet clothing) for the online store",
+      "summary": "Add store product categories: Women’s Clothing, Men’s Clothing, Children’s Clothing, Infant Clothing, Shoes, Jewelry, Accessories, Bags",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-3",
-      "summary": "Design a store logo for KSM Corporation",
+      "summary": "Enable e-commerce purchasing so customers can start buying items from the company store",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-4",
-      "summary": "Plan/design a homepage layout for the KSM Corporation storefront (structure and key sections)",
+      "summary": "Add NFT/crypto buying/selling features to the store",
       "reqIds": [],
-      "status": "pending"
+      "status": "blocked"
     },
     {
       "id": "AR-5",
-      "summary": "Add initial KSM clothing product listings/catalog so the store can start selling items (seed products, basic product data, and storefront listing/display)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Update the storefront visual design to be more cartoonish with more color and playful styling across the site",
-      "reqIds": [],
+      "summary": "Update the backend storefront configuration to represent the company’s store categories for selling physical items: Women’s Clothing, Men’s Clothing, Children’s Clothing, Infant Clothing, Shoes, Jewelry, Accessories, and Bags. Ensure `getConfig()` returns exactly these categories (with stable `id`, `title`, `description`, and `imageUrl` fields) so the frontend can render the company storefront from backend data.",
+      "reqIds": [
+        "REQ-1"
+      ],
       "status": "pending"
     },
     {
       "id": "AR-7",
-      "summary": "Implement a minimal product catalog API in the Motoko backend so the storefront can display and sell initial clothing items. Add stable types and data for products (at minimum: id, name/title, description, price, currency, categoryId, imageUrl, available sizes, available colors, and an inStock flag/quantity). Expose query methods to list all products and to list products filtered by categoryId, and a query method to fetch a single product by id.",
+      "summary": "Make checkout/purchasing functional in the backend by computing `totalAmount` for orders based on the products in each line item (product price × quantity), and validate that ordered items exist and are in stock. When an order is successfully placed, decrement product `stockCount` accordingly and update `inStock` when stock reaches zero.",
       "reqIds": [
-        "REQ-8"
+        "REQ-3"
       ],
       "status": "pending"
     },
     {
       "id": "AR-8",
-      "summary": "Implement a minimal order/checkout API in the Motoko backend to support placing an order for items added to cart. Add an update method to create an order that accepts a list of line items (productId, quantity, selected size, selected color) and basic buyer contact/shipping fields (name, email, address fields). Return an orderId and store the order in stable state.",
+      "summary": "Ensure the store has items available to browse and buy by seeding an initial catalog of products on the backend across all configured categories (including Accessories and Bags). Seeded products must include valid `categoryId`, `price`, `currency`, `imageUrl`, `sizes` (where applicable), `colors`, `inStock`, `stockCount`, and at least one `styleTags` value so the existing style filter can be exercised.",
       "reqIds": [
-        "REQ-9"
+        "REQ-4"
       ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-9",
-      "summary": "Update the backend storefront configuration returned by getConfig so it reflects the clothing storefront (brandName/hero text) and includes a clothing-focused category list consistent with the homepage categories already used in the frontend fallback (men, women, children, infants, jewelry, shoes, pets). Ensure category ids are stable and match the ids used for anchors/navigation.",
-      "reqIds": [
-        "REQ-10"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-10",
-      "summary": "Add support for region-inspired clothing styles (American, European/Italian, Australian, Canadian, South American) in the product catalog/collections and storefront presentation (e.g., style tags, collections, filtering/browsing).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-11",
-      "summary": "Extend the backend product model to support region-inspired clothing styles by adding a list field (e.g., styleTags) on each Product and updating all relevant backend methods to return this field.",
-      "reqIds": [
-        "REQ-16"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-12",
-      "summary": "Update the backend addProduct API to accept style tags for a product and persist them with the product record; ensure a reasonable default (empty list) is used when style tags are not provided by callers.",
-      "reqIds": [
-        "REQ-17"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-16",
-      "summary": "Ensure the initial/seed product catalog includes products across categories that use the requested region-inspired style tags (American, European, Italian, Australian, Canadian, South American) so the new style filter can be exercised in the UI.",
-      "reqIds": [
-        "REQ-21"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-17",
-      "summary": "Adjust storefront visual theme to use more blue tones and reduce/remove pinkish colors to better match a more traditionally masculine color palette.",
-      "reqIds": [],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "KSM Corporation",
+  "projectName": "Rebuild and publish multi-category company storefront with updated categories and working purchasing",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

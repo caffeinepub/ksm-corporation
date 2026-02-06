@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -29,6 +29,15 @@ export default function ProductDetailDialog({ product, open, onOpenChange }: Pro
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
 
+  // Reset selections when dialog opens or product changes
+  useEffect(() => {
+    if (open && product) {
+      setSelectedSize('');
+      setSelectedColor('');
+      setQuantity(1);
+    }
+  }, [open, product?.id]);
+
   if (!product) return null;
 
   const price = Number(product.price) / 100;
@@ -56,9 +65,6 @@ export default function ProductDetailDialog({ product, open, onOpenChange }: Pro
 
     toast.success(`Added ${quantity} ${product.name} to cart`);
     onOpenChange(false);
-    setQuantity(1);
-    setSelectedSize('');
-    setSelectedColor('');
   };
 
   return (
