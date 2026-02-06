@@ -1,0 +1,131 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Scrollable, data-driven homepage sections with anchored navigation and configurable brand name",
+  "requirements": [
+    {
+      "id": "REQ-4",
+      "summary": "Expand homepage into a scrollable landing page by adding Featured Collections, trust highlights, and a newsletter/signup CTA sections below the existing hero.",
+      "acceptanceCriteria": [
+        "The homepage renders the existing header + hero + category showcase + footer, plus the three additional sections listed in this requirement, in a single scrollable page.",
+        "All new sections are responsive (mobile, tablet, desktop) and use the existing Tailwind/shadcn styling approach.",
+        "All user-facing text in the added sections is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/FeaturedCollections.tsx",
+          "operation": "create",
+          "description": "Create a responsive \"Featured Collections\" homepage section component (with a stable anchor id) that matches existing Tailwind/shadcn styling patterns. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/TrustHighlights.tsx",
+          "operation": "create",
+          "description": "Create a responsive \"Why shop with us\" / trust highlights section component (with a stable anchor id), using composed shadcn components (no edits under frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/NewsletterCTA.tsx",
+          "operation": "create",
+          "description": "Create a simple newsletter/signup call-to-action section component (with a stable anchor id) using composed shadcn components (e.g., Card/Button/Input if available) and English copy. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the three new sections into the homepage flow, placing them below the existing hero and category showcase, keeping the page as a single scrollable landing page. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Ensure header navigation reliably scrolls to stable anchored homepage sections and add a working mobile navigation menu with the same links.",
+      "acceptanceCriteria": [
+        "Each top navigation item scrolls to a matching section with the same anchor id (e.g., men, women, children, infants, jewelry, shoes, pets).",
+        "On mobile viewports, users can open a menu and access the same navigation links.",
+        "No broken links: clicking any nav item moves the viewport to a visible section on the page."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CategoryShowcase.tsx",
+          "operation": "modify",
+          "description": "Add stable anchor ids for each category target (men, women, children, infants, jewelry, shoes, pets) so in-page navigation scrolls to visible content; apply appropriate scroll offset behavior for the sticky header. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/StorefrontHeader.tsx",
+          "operation": "modify",
+          "description": "Implement reliable in-page scrolling for nav items to matching anchor ids (including categories) and add an accessible mobile navigation experience (expandable menu) exposing the same links on small screens. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Ensure footer navigation links that reference homepage anchors align with the same stable anchor ids used by header navigation to avoid broken links. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Fetch storefront configuration (brand name, hero content, categories) via React Query and render homepage hero and category grid from fetched data with safe defaults on failure.",
+      "acceptanceCriteria": [
+        "The backend canister exposes at least one query method that returns a single configuration object containing: store name, hero headline/description, and category definitions (id/title/description).",
+        "The frontend uses React Query to fetch this configuration and uses it to populate the homepage hero and category grid content.",
+        "If the backend is unavailable or the call fails, the UI still renders using existing default content without crashing."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a React Query hook (e.g., useStorefrontConfig) that calls the backend actor getConfig() and returns configuration data, while supporting graceful fallback behavior in the UI when the query fails. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Use the new React Query hook to fetch storefront configuration and pass the resolved config (or hardcoded defaults on error/unavailable) into Hero and CategoryShowcase so homepage content is data-driven. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Hero.tsx",
+          "operation": "modify",
+          "description": "Refactor Hero to accept props for hero headline/description (and brand name for accessible text) so content can be populated from fetched configuration with a safe default. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/CategoryShowcase.tsx",
+          "operation": "modify",
+          "description": "Refactor CategoryShowcase to accept a categories array (id/title/description/imageUrl) from fetched configuration and render the category grid from that data while preserving the existing visual theme. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Make the displayed store/brand name fully data-driven from configuration and apply it consistently to visible labels and accessible text without changing existing logo assets.",
+      "acceptanceCriteria": [
+        "Store/brand name displayed in the UI is sourced from backend configuration (with a sensible default such as the current \"KSM Corporation\").",
+        "Accessible text that references the store name (e.g., logo alt text) uses the configured store/brand name.",
+        "Existing logo image files remain unchanged and still load from /assets/generated/."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Centralize a default brand/store name (fallback) and pass the configured brandName down to header/hero/footer so text and labels become data-driven while preserving existing logo assets. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/StorefrontHeader.tsx",
+          "operation": "modify",
+          "description": "Update visible brand text (if present) and accessible text (e.g., logo alt, sr-only labels referencing the store) to use the configured brand/store name while keeping the existing KSM logo image source paths unchanged. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Hero.tsx",
+          "operation": "modify",
+          "description": "Update hero logo alt text and any store-name-referencing accessible labels to use the configured brand/store name; keep existing image sources unchanged. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Update footer logo alt text and any store-name-referencing text/labels to use the configured brand/store name while keeping existing logo image source paths unchanged. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/CategoryShowcase.tsx",
+          "operation": "modify",
+          "description": "Update any store-name-referencing copy (e.g., brand story section text) to be consistent with the configured brand/store name, while preserving the existing section’s styling and layout. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

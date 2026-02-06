@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Build KSM Corporation, a large multi-category online clothing retailer/brand spanning infants through adults (men/women), plus jewelry, shoes (sneakers/boots), and pet clothing (dogs/cats), with plans to eventually carry major third‑party brands via partnerships/licensing.",
+  "architectural_notes": [
+    "Selling third-party luxury/name brands requires official partnerships/licensing; start with KSM-branded products and add external brands after agreements."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-generate-a-primary-store-logo-for-the-brand-name-ksm-corporation-and-add-it-to-the-project-as-a-static-asset",
+      "title": "Generate a primary store logo for the brand name \"KSM Corporation\" and add it to the project as a static asset.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-storefront-header-component-that-displays-the-ksm-corporation-logo-from-static-assets-and-the-store-name-as-accessible-text",
+      "title": "Add a simple storefront header component that displays the KSM Corporation logo (from static assets) and the store name as accessible text.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-establish-a-coherent-creative-visual-theme-for-the-storefront-ui-colors-typography-spacing-and-component-styling-and-apply-it-consistently-across-the-main-layout",
+      "title": "Establish a coherent, creative visual theme for the storefront UI (colors, typography, spacing, and component styling) and apply it consistently across the main layout.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-homepage-layout-to-be-a-more-complete-scrollable-landing-page-by-adding-at-least-these-sections-below-the-existing-hero-1-a-featured-collections-section-2-a-why-shop-with-us-trust-highlights-section-and-3-a-simple-newsletter-signup-call-to-action-section-ensure-all-sections-are-responsive-and-match-the-existing-visual-theme",
+      "title": "Update the homepage layout to be a more complete, scrollable landing page by adding at least these sections below the existing hero: (1) a \"Featured Collections\" section, (2) a \"Why shop with us\"/trust highlights section, and (3) a simple newsletter/signup call-to-action section. Ensure all sections are responsive and match the existing visual theme.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-header-navigation-links-reliably-navigate-to-the-corresponding-homepage-sections-by-ensuring-each-target-section-has-a-stable-anchor-id-and-that-clicking-a-nav-item-scrolls-to-that-section-including-for-the-categories-already-shown-add-a-working-mobile-navigation-experience-e-g-an-expandable-menu-so-the-same-links-are-accessible-on-small-screens",
+      "title": "Make the header navigation links reliably navigate to the corresponding homepage sections by ensuring each target section has a stable anchor id and that clicking a nav item scrolls to that section (including for the categories already shown). Add a working mobile navigation experience (e.g., an expandable menu) so the same links are accessible on small screens.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-backend-coding-by-implementing-a-minimal-motoko-api-that-provides-storefront-configuration-data-brand-store-name-hero-headline-description-and-the-category-list-used-on-the-homepage-update-the-frontend-to-fetch-this-configuration-with-react-query-and-render-the-homepage-content-from-the-fetched-data-falling-back-to-current-hardcoded-defaults-if-the-backend-call-fails",
+      "title": "Add backend \"coding\" by implementing a minimal Motoko API that provides storefront configuration data (brand/store name, hero headline/description, and the category list used on the homepage). Update the frontend to fetch this configuration with React Query and render the homepage content from the fetched data (falling back to current hardcoded defaults if the backend call fails).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-support-the-brand-name-coding-company-corporation-by-making-the-displayed-brand-store-name-come-from-the-backend-configuration-req-6-and-ensuring-it-is-used-consistently-for-accessible-text-e-g-image-alt-text-sr-only-labels-and-any-visible-store-name-text-do-not-remove-existing-ksm-logo-assets-only-update-text-labels-to-be-data-driven",
+      "title": "Support the brand name \"Coding Company Corporation\" by making the displayed brand/store name come from the backend configuration (REQ-6) and ensuring it is used consistently for accessible text (e.g., image alt text, sr-only labels, and any visible store name text). Do not remove existing KSM logo assets; only update text/labels to be data-driven.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create online store plan/structure for KSM Corporation (multi-category retail spanning infants to adults)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Define full product category taxonomy (infants/children/adults; tops/bottoms/underwear/bras; shoes; jewelry; pet clothing) for the online store",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Design a store logo for KSM Corporation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Plan/design a homepage layout for the KSM Corporation storefront (structure and key sections)",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "KSM Corporation",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

@@ -1,0 +1,13 @@
+{
+  "frontend/src/App.tsx": "Main application component with QueryClientProvider that fetches storefront config and passes data to all child components with fallback defaults.",
+  "frontend/src/components/StorefrontHeader.tsx": "Sticky header with brand logo, smooth-scrolling navigation to anchored sections, and mobile sheet menu with the same navigation links.",
+  "frontend/src/components/Hero.tsx": "Hero section component that accepts brandName, headline, and description props to display data-driven content with logo and CTAs.",
+  "frontend/src/components/CategoryShowcase.tsx": "Category grid component that renders categories from backend data with stable anchor IDs, icons, and brand story section using configured brand name.",
+  "frontend/src/components/Footer.tsx": "Footer component with brand logo, navigation links that scroll to anchored sections, social media icons, and caffeine.ai attribution.",
+  "frontend/src/hooks/useQueries.ts": "React Query hook for fetching storefront configuration from the backend with proper error handling and caching.",
+  "frontend/src/index.css": "Global styles with custom OKLCH color system using warm neutrals and emerald/amber accents, Inter font family, and typography settings.",
+  "frontend/tailwind.config.js": "Tailwind configuration extended with Inter and Playfair Display fonts, custom color tokens, border radius, shadows, and animations.",
+  "frontend/src/components/FeaturedCollections.tsx": "Featured collections section showcasing new arrivals, trending items, and best sellers with icons and hover effects.",
+  "frontend/src/components/TrustHighlights.tsx": "Trust highlights section displaying four key benefits (secure shopping, fast shipping, easy returns, 24/7 support) in a responsive grid.",
+  "frontend/src/components/NewsletterCTA.tsx": "Newsletter signup call-to-action section with email input form and gradient background styling."
+}

@@ -1,0 +1,73 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-06T05:49:39.495Z",
+  "summary": "The diff adds the three new homepage sections and wires the homepage to fetch a backend-provided config via React Query with a fallback default. However, the navigation/anchor behavior does not meet the requested category-link scrolling behavior, and the backend method is not implemented as a query as required. The configured brand name also does not reflect the requested \"Coding Company Corporation\" option in the backend-provided config.",
+  "missing_requirements": [
+    {
+      "id": "REQ-5",
+      "requirement": "Header navigation links must scroll to matching homepage section anchor ids, including for the categories already shown (e.g., men, women, children, infants, jewelry, shoes, pets), and provide a working mobile navigation experience with the same links.",
+      "reason": "Mobile navigation exists, but the nav items implemented are Lifestyle/NFTs/Featured/Why Us rather than the specified category anchors (men, women, children, infants, jewelry, shoes, pets). This does not satisfy the acceptance criteria examples for category scrolling links.",
+      "evidence": [
+        "frontend/src/components/StorefrontHeader.tsx (navItems: lifestyle, nfts, featured, why-us)",
+        "frontend/src/App.tsx (default categories include men/women/children/infants/jewelry/shoes/pets)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Backend canister must expose at least one query method returning a single configuration object (store name, hero headline/description, categories id/title/description).",
+      "reason": "The backend exposes getConfig as a shared update call (`public shared ({ caller }) func getConfig()`), not a query method as required.",
+      "evidence": [
+        "backend/main.mo (public shared ({ caller }) func getConfig() : async Config)"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Support the brand name \"Coding Company Corporation\" by sourcing displayed brand/store name from backend config and using it consistently for accessible text, with a sensible default.",
+      "reason": "While the frontend is data-driven and uses brandName for alt/sr-only text, the backend-provided brandName is hardcoded to \"Linden Storefront\" rather than providing/supporting the requested \"Coding Company Corporation\" option via backend configuration.",
+      "evidence": [
+        "backend/main.mo (brandName = \"Linden Storefront\")",
+        "frontend/src/App.tsx (brandName sourced from config || defaultConfig)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added extra \"Our Story\" section inside the CategoryShowcase component.",
+      "reason": "Not requested by REQ-4/REQ-5/REQ-6/REQ-7; REQ-4 only asked for Featured Collections, Why Shop With Us/trust highlights, and a Newsletter/CTA below the hero.",
+      "evidence": [
+        "frontend/src/components/CategoryShowcase.tsx (\"Brand Story Section\" / \"Our Story\")"
+      ]
+    },
+    {
+      "description": "Footer includes links to #about, #contact, #careers, and #shipping anchors that are not shown as implemented sections in the diff.",
+      "reason": "Not requested, and may introduce broken anchor navigation if those sections do not exist.",
+      "evidence": [
+        "frontend/src/components/Footer.tsx (Company links: href=\"#about\", \"#contact\", \"#careers\", \"#shipping\")"
+      ]
+    },
+    {
+      "description": "Backend config changes homepage categories to Lifestyle and NFTs rather than the described multi-category fashion set (men/women/children/infants/jewelry/shoes/pets) that the homepage currently uses by default.",
+      "reason": "The request was to provide the category list used on the homepage; swapping to unrelated categories was not requested and also misaligns with the REQ-5 anchor-id examples.",
+      "evidence": [
+        "backend/main.mo (categories: lifestyle, nfts)",
+        "frontend/src/App.tsx (default categories: men, women, children, infants, jewelry, shoes, pets)"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/CategoryShowcase.tsx",
+    "frontend/src/components/FeaturedCollections.tsx",
+    "frontend/src/components/Footer.tsx",
+    "frontend/src/components/Hero.tsx",
+    "frontend/src/components/NewsletterCTA.tsx",
+    "frontend/src/components/StorefrontHeader.tsx",
+    "frontend/src/components/TrustHighlights.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "project_state.json"
+  ]
+}

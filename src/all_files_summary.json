@@ -1,0 +1,22 @@
+{
+  "backend/main.mo": "Motoko canister exposing getConfig that returns brand info, hero text, and a predefined category list.",
+  "feature_evidence.json": "Feature evidence report mapping features to related frontend files and components.",
+  "frontend-file-summaries.txt": "Prewritten summaries describing key frontend files and components in the project.",
+  "frontend/index.css": "Tailwind base styles defining OKLCH color variables and theme tokens for light and dark modes.",
+  "frontend/index.html": "Basic HTML entry point mounting the React app via root div and main.tsx script.",
+  "frontend/src/App.tsx": "Main React app that fetches storefront config and renders header, hero, categories, and other homepage sections with fallbacks.",
+  "frontend/src/components/CategoryShowcase.tsx": "Renders category cards with icons, gradients, and a brand story section using backend-provided categories.",
+  "frontend/src/components/FeaturedCollections.tsx": "Displays three featured collection cards with icons, gradients, and CTA buttons.",
+  "frontend/src/components/Footer.tsx": "Footer with brand info, quick links using smooth scroll navigation, and social icons.",
+  "frontend/src/components/Hero.tsx": "Displays a hero section with brand logo, headline, description, and call‑to‑action buttons.",
+  "frontend/src/components/NewsletterCTA.tsx": "Renders a newsletter signup card with email input, submit handling, and promotional text.",
+  "frontend/src/components/StorefrontHeader.tsx": "Implements a responsive storefront header with navigation, search/account/cart buttons, and a mobile menu.",
+  "frontend/src/components/TrustHighlights.tsx": "Shows a grid of trust badges highlighting security, shipping, returns, and support benefits.",
+  "frontend/src/hooks/useActor.ts": "Creates and manages an authenticated or anonymous backend actor, refreshing dependent queries when identity changes.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides Internet Identity context and login/logout logic with persistent identity loading.",
+  "frontend/src/hooks/useQueries.ts": "Fetches storefront configuration from the backend using the initialized actor.",
+  "frontend/src/index.css": "Defines global styles, fonts, and Tailwind CSS variables for light and dark themes.",
+  "frontend/src/main.tsx": "Bootstraps the React app with query and identity providers and loads global styles.",
+  "frontend/tailwind.config.js": "Configures Tailwind with custom colors, fonts, animations, and plugin integrations.",
+  "project_state.json": "Defines the project’s current build state, including storefront goals, architectural notes, and a list of implemented features with their versions. Contains no code, only metadata for planning and tracking progress."
+}

@@ -1,0 +1,89 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-homepage-layout-to-be-a-more-complete-scrollable-landing-page-by-adding-at-least-these-sections-below-the-existing-hero-1-a-featured-collections-section-2-a-why-shop-with-us-trust-highlights-section-and-3-a-simple-newsletter-signup-call-to-action-section-ensure-all-sections-are-responsive-and-match-the-existing-visual-theme",
+      "featureTitle": "Update the homepage layout to be a more complete, scrollable landing page by adding at least these sections below the existing hero: (1) a \"Featured Collections\" section, (2) a \"Why shop with us\"/trust highlights section, and (3) a simple newsletter/signup call-to-action section. Ensure all sections are responsive and match the existing visual theme.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/FeaturedCollections.tsx",
+        "frontend/src/components/NewsletterCTA.tsx",
+        "frontend/src/components/TrustHighlights.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-the-header-navigation-links-reliably-navigate-to-the-corresponding-homepage-sections-by-ensuring-each-target-section-has-a-stable-anchor-id-and-that-clicking-a-nav-item-scrolls-to-that-section-including-for-the-categories-already-shown-add-a-working-mobile-navigation-experience-e-g-an-expandable-menu-so-the-same-links-are-accessible-on-small-screens",
+      "featureTitle": "Make the header navigation links reliably navigate to the corresponding homepage sections by ensuring each target section has a stable anchor id and that clicking a nav item scrolls to that section (including for the categories already shown). Add a working mobile navigation experience (e.g., an expandable menu) so the same links are accessible on small screens.",
+      "files": [
+        "frontend/src/components/CategoryShowcase.tsx",
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/StorefrontHeader.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-backend-coding-by-implementing-a-minimal-motoko-api-that-provides-storefront-configuration-data-brand-store-name-hero-headline-description-and-the-category-list-used-on-the-homepage-update-the-frontend-to-fetch-this-configuration-with-react-query-and-render-the-homepage-content-from-the-fetched-data-falling-back-to-current-hardcoded-defaults-if-the-backend-call-fails",
+      "featureTitle": "Add backend \"coding\" by implementing a minimal Motoko API that provides storefront configuration data (brand/store name, hero headline/description, and the category list used on the homepage). Update the frontend to fetch this configuration with React Query and render the homepage content from the fetched data (falling back to current hardcoded defaults if the backend call fails).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/CategoryShowcase.tsx",
+        "frontend/src/components/Hero.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-support-the-brand-name-coding-company-corporation-by-making-the-displayed-brand-store-name-come-from-the-backend-configuration-req-6-and-ensuring-it-is-used-consistently-for-accessible-text-e-g-image-alt-text-sr-only-labels-and-any-visible-store-name-text-do-not-remove-existing-ksm-logo-assets-only-update-text-labels-to-be-data-driven",
+      "featureTitle": "Support the brand name \"Coding Company Corporation\" by making the displayed brand/store name come from the backend configuration (REQ-6) and ensuring it is used consistently for accessible text (e.g., image alt text, sr-only labels, and any visible store name text). Do not remove existing KSM logo assets; only update text/labels to be data-driven.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/CategoryShowcase.tsx",
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/Hero.tsx",
+        "frontend/src/components/StorefrontHeader.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
